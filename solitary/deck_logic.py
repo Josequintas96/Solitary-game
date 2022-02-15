@@ -125,6 +125,13 @@ class Deck:
 	def ret_card_color(self, i3):
 		return self.deckZ[i3].ret_color()
 
+	def set_reveal_all_deck(self):
+		lenX = len(self.orderX)
+		i0=0
+		while i0 < lenX:
+			self.deckZ[self.orderX[i0]].flip_card()
+			i0+=1
+
 
 #play = Deck()
 #play.ret_id()		

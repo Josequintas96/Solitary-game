@@ -23,9 +23,8 @@ screen = pygame.display.set_mode((1000,800)) #height X:800  weight Y: 600
 
 
 # how to set up a card from the deck on specific location
-def card_set_up(pX,pY, id):
-    global game_Omega
-    card_O = game_Omega.obtaincard(id)
+def card_set_up(game_Omega, pX,pY, id):
+    card_O = game_Omega[0].obtaincard(id)
     # card_O.description()
     new_symbol = card_O.ret_type()
     new_number = card_O.ret_value()
@@ -146,9 +145,12 @@ def card_set_up(pX,pY, id):
             
             
 ## SET UP GAME => seet up game object
-game_Omega = Solitary()
-game_Omega.set_up_game()
-# game_Omega.manual_set_up_game()
+gameX = Solitary()
+# game_Omega = Solitary()
+game_Omega = [gameX]
+# game_Omega[0].superman
+game_Omega[0].set_up_game()
+# game_Omega[0].manual_set_up_game()
 
 
 
@@ -256,63 +258,63 @@ class collection():
         print("\t New Quanttity is ",self.quantity)
             
             
-    def display(self, dynamic, new_loc, hyper_dynamic, stage_s, i0):
+    def display(self, game_Omega, dynamic, new_loc, hyper_dynamic, stage_s, i0):
         # dynamic refer if one card is on hnad
         #hyoper refer wheen seeveral hands are on hold
         #stage_S refer to  loocalization 
         if hyper_dynamic == False and dynamic == False:
-            self.display_static(self.quantity,i0)
+            self.display_static(game_Omega, self.quantity,i0)
         elif hyper_dynamic:
             print("Hyper Dynamic")
-            self.display_static(stage_s, i0)
-            self.display_advance_dynamic(new_loc, stage_s, i0)
-            # self.display_dynamic(new_loc)
+            self.display_static(game_Omega, stage_s, i0)
+            self.display_advance_dynamic(game_Omega , new_loc, stage_s, i0)
+            # self.display_dynamic(game_Omega, new_loc)
         elif dynamic:
-            self.display_static(self.quantity-1,  i0)
-            self.display_dynamic(new_loc, i0)
+            self.display_static(game_Omega, self.quantity-1,  i0)
+            self.display_dynamic(game_Omega, new_loc, i0)
             
     
     def ret_loc(self):
         return self.location
         
-    def display_static(self, set_quantity, i02):
+    def display_static(self, game_Omega, set_quantity, i02):
         # picture the the cards of list that stay in place 
         i0 = 0
         while i0 < set_quantity:
             # if state == hidden
-            numb_id = game_Omega.listSpare[i02][i0]
+            numb_id = game_Omega[0].listSpare[i02][i0]
             
-            card_O = game_Omega.obtaincard(numb_id)
+            card_O = game_Omega[0].obtaincard(numb_id)
             if card_O.ret_state() == "reveal":
-                card_set_up(self.location[0], self.location[1]+20*i0, numb_id)
+                card_set_up( game_Omega ,self.location[0], self.location[1]+20*i0, numb_id)
             else:
                 card_b(self.location[0], self.location[1]+20*i0)
             # card_b(self.location[0], self.location[1]+20*i0)
             i0 += 1
         
         
-    def display_dynamic(self, new_loc, i0):
+    def display_dynamic(self, game_Omega, new_loc, i0):
          # picture the the one card oof list that move with our hand 
-        numb_id = game_Omega.listSpare[i0][len(game_Omega.listSpare[i0])-1]
+        numb_id = game_Omega[0].listSpare[i0][len(game_Omega[0].listSpare[i0])-1]
         global card_grabbed_id
         card_grabbed_id = numb_id
-        card_set_up(new_loc[0]-40, new_loc[1]-53, numb_id )
+        card_set_up( game_Omega , new_loc[0]-40, new_loc[1]-53, numb_id )
         # card_b(new_loc[0]-40, new_loc[1]-53)
         
-    def display_advance_dynamic(self, new_loc, stage_s, spare_numb):
+    def display_advance_dynamic(self, game_Omega, new_loc, stage_s, spare_numb):
          # picture the X's cards of list that movee with our mouse
         # print("\tself.quatity => ", self.quantity) 
         # print("\tstagee_s => ", stage_s) 
         i0 = self.quantity - stage_s
         i02 = 0
         while i02 < i0:
-            numb_id = game_Omega.listSpare[spare_numb][i02+stage_s]
-            card_set_up(new_loc[0]-40, new_loc[1]-53+20*i02,numb_id )
+            numb_id = game_Omega[0].listSpare[spare_numb][i02+stage_s]
+            card_set_up(game_Omega, new_loc[0]-40, new_loc[1]-53+20*i02,numb_id )
             i02+=1
     
         
         
-    def display_special(self, conditionX, symbol_name, new_loc):
+    def display_special(self, game_Omega, conditionX, symbol_name, new_loc):
         # special method set up for each of one collleection 
         # which deal with collection of samesymbol card
         # conditionX mean thatwee are grabbing a crad, therefore, top card of deck is above
@@ -331,60 +333,60 @@ class collection():
                 if self.quantity -1 == 0:
                     card_Clover(self.location[0], self.location[1])
                     if conditionX == True and symbol_name == self.name:
-                        card_set_up(new_loc[0]-40, new_loc[1]-53, 0)
+                        card_set_up(game_Omega, new_loc[0]-40, new_loc[1]-53, 0)
                     else:
-                        card_set_up(self.location[0], self.location[1], 0)
+                        card_set_up(game_Omega, self.location[0], self.location[1], 0)
                 else:
-                    card_set_up(self.location[0], self.location[1], self.quantity-2)
+                    card_set_up(game_Omega, self.location[0], self.location[1], self.quantity-2)
                     if conditionX == True and symbol_name == self.name:
-                        card_set_up(new_loc[0]-40, new_loc[1]-53, self.quantity-1)
+                        card_set_up(game_Omega, new_loc[0]-40, new_loc[1]-53, self.quantity-1)
                     else:
-                        card_set_up(self.location[0], self.location[1], self.quantity-1)
-                    # card_set_up(self.location[0], self.location[1], self.quantity-1)
+                        card_set_up(game_Omega, self.location[0], self.location[1], self.quantity-1)
+                    # card_set_up(game_Omega, self.location[0], self.location[1], self.quantity-1)
             elif self.name == "Heart":
                 if self.quantity -1 == 0:
                     card_Heart(self.location[0], self.location[1])
                     if conditionX == True and symbol_name == self.name:
-                        card_set_up(new_loc[0]-40, new_loc[1]-53, 39)
+                        card_set_up(game_Omega, new_loc[0]-40, new_loc[1]-53, 39)
                     else:
-                        card_set_up(self.location[0], self.location[1], 39)
+                        card_set_up(game_Omega, self.location[0], self.location[1], 39)
                 else:
-                    card_set_up(self.location[0], self.location[1], self.quantity-2+39)
+                    card_set_up(game_Omega, self.location[0], self.location[1], self.quantity-2+39)
                     if conditionX == True and symbol_name == self.name:
-                        card_set_up(new_loc[0]-40, new_loc[1]-53, self.quantity-1+39)
+                        card_set_up(game_Omega, new_loc[0]-40, new_loc[1]-53, self.quantity-1+39)
                     else:
-                        card_set_up(self.location[0], self.location[1], self.quantity-1+39)
-                    # card_set_up(self.location[0], self.location[1], self.quantity-1+39)
+                        card_set_up(game_Omega, self.location[0], self.location[1], self.quantity-1+39)
+                    # card_set_up(game_Omega, self.location[0], self.location[1], self.quantity-1+39)
             elif self.name == "Pica":
                 if self.quantity -1 == 0:
                     card_Pica(self.location[0], self.location[1])
                     if conditionX == True and symbol_name == self.name:
-                        card_set_up(new_loc[0]-40, new_loc[1]-53, 26)
+                        card_set_up(game_Omega, new_loc[0]-40, new_loc[1]-53, 26)
                     else:
-                        card_set_up(self.location[0], self.location[1], 26)
-                    # card_set_up(self.location[0], self.location[1], 26)
+                        card_set_up(game_Omega, self.location[0], self.location[1], 26)
+                    # card_set_up(game_Omega, self.location[0], self.location[1], 26)
                 else:
-                    card_set_up(self.location[0], self.location[1], self.quantity-2+26)
+                    card_set_up(game_Omega, self.location[0], self.location[1], self.quantity-2+26)
                     if conditionX == True and symbol_name == self.name:
-                        card_set_up(new_loc[0]-40, new_loc[1]-53, self.quantity-1+26)
+                        card_set_up(game_Omega, new_loc[0]-40, new_loc[1]-53, self.quantity-1+26)
                     else:
-                        card_set_up(self.location[0], self.location[1], self.quantity-1+26)
-                    # card_set_up(self.location[0], self.location[1], self.quantity-1+26)
+                        card_set_up(game_Omega, self.location[0], self.location[1], self.quantity-1+26)
+                    # card_set_up(game_Omega, self.location[0], self.location[1], self.quantity-1+26)
             elif self.name == "Diamond":
                 if self.quantity -1 == 0:
                     card_Diamond(self.location[0], self.location[1])
-                    # card_set_up(self.location[0], self.location[1], 13)
+                    # card_set_up(game_Omega, self.location[0], self.location[1], 13)
                     if conditionX == True and symbol_name == self.name:
-                        card_set_up(new_loc[0]-40, new_loc[1]-53, 13)
+                        card_set_up(game_Omega, new_loc[0]-40, new_loc[1]-53, 13)
                     else:
-                        card_set_up(self.location[0], self.location[1], 13)
+                        card_set_up(game_Omega, self.location[0], self.location[1], 13)
                 else:
-                    card_set_up(self.location[0], self.location[1], self.quantity-2+13)
+                    card_set_up(game_Omega, self.location[0], self.location[1], self.quantity-2+13)
                     if conditionX == True and symbol_name == self.name:
-                        card_set_up(new_loc[0]-40, new_loc[1]-53, self.quantity-1+13)
+                        card_set_up(game_Omega, new_loc[0]-40, new_loc[1]-53, self.quantity-1+13)
                     else:
-                        card_set_up(self.location[0], self.location[1], self.quantity-1+13)
-                    # card_set_up(self.location[0], self.location[1], self.quantity-1+13)
+                        card_set_up(game_Omega, self.location[0], self.location[1], self.quantity-1+13)
+                    # card_set_up(game_Omega, self.location[0], self.location[1], self.quantity-1+13)
         
             
         
@@ -415,7 +417,7 @@ class collection():
                 return True
         return  False
     
-    def grab_advance(self,px,py, spare_num ,list_k):
+    def grab_advance(self, game_Omega, px,py, spare_num ,list_k):
         #meethod on colleection to verify is advanse_mouse can bee apply
         #list_k: list where will be save the number of the list
         i0 = self.quantity-1
@@ -424,8 +426,8 @@ class collection():
             if i0+1 > 1:
                 while i0 > 0:
                     if py < self.location[1]+20*i0 and py >= self.location[1]+20*(i0-1):
-                        global game_Omega
-                        if game_Omega.check_list_Unorganize(spare_num, i0-1):
+                        # global game_Omega
+                        if game_Omega[0].check_list_Unorganize(spare_num, i0-1):
                             print("Advance Grab card == spare_num: ", spare_num, "\t i0: ",i0-1)
                             list_k[0] = (i0-1)
                             return True
@@ -503,14 +505,14 @@ while i0<7:
     collX = collection(spare_loc[0]+numbX*i0+numb, spare_loc[1])
     collectionU.append(collX)
     collectionU[i0].set_spare(i0)
-    collectionU[i0].set_quantity(len(game_Omega.listSpare[i0]))
+    collectionU[i0].set_quantity(len(game_Omega[0].listSpare[i0]))
     i0+=1
     
 def set_collection_quantity():
     # rearange the quantity of the list Spare collection separattely to avodi unorganizatoin
     i0 =0
     while i0<7:
-        collectionU[i0].set_quantity(len(game_Omega.listSpare[i0]))
+        collectionU[i0].set_quantity(len(game_Omega[0].listSpare[i0]))
         i0+=1
         
 
@@ -535,68 +537,68 @@ coll_Control.set_name("Control")
 coll_Control.set_Quatity(0)
 
 
-def display_spare_deck(loc, control_mouse, advance_mouse):
+def display_spare_deck(game_Omega, loc, control_mouse, advance_mouse):
     i0 = 0
     while i0<7:
         if i0 == control_mouse[0]:
             if advance_mouse[0] != -1:
                 print("SUPER ADVANCE MOUSE BUTTON")
-                collectionU[i0].display(True, loc, True, advance_mouse[0], i0)
+                collectionU[i0].display(game_Omega, True, loc, True, advance_mouse[0], i0)
             else:
-                collectionU[i0].display(True, loc, False, -1, i0)
+                collectionU[i0].display(game_Omega, True, loc, False, -1, i0)
         else:
-            collectionU[i0].display(False, loc, False, -1,i0)
+            collectionU[i0].display(game_Omega , False, loc, False, -1,i0)
         i0+=1
     
-def display_collection(grab_happen, symbol_name, new_loc):
-    coll_Pica.display_special(grab_happen, symbol_name ,new_loc)
-    coll_Clover.display_special(grab_happen, symbol_name ,new_loc)
-    coll_Diamond.display_special(grab_happen, symbol_name ,new_loc)
-    coll_Heart.display_special(grab_happen, symbol_name ,new_loc)
+def display_collection(game_Omega, grab_happen, symbol_name, new_loc):
+    coll_Pica.display_special(game_Omega,grab_happen, symbol_name ,new_loc)
+    coll_Clover.display_special(game_Omega,grab_happen, symbol_name ,new_loc)
+    coll_Diamond.display_special(game_Omega, grab_happen, symbol_name ,new_loc)
+    coll_Heart.display_special(game_Omega, grab_happen, symbol_name ,new_loc)
     
     
-def display_control_deck(loc, grab):
-    display_control(loc, grab)
+def display_control_deck(game_Omega, loc, grab):
+    display_control(game_Omega, loc, grab)
     
-def display_control(new_loc, grab):
-    i0 = len(game_Omega.listControl)-game_Omega.setcount
+def display_control(game_Omega, new_loc, grab):
+    i0 = len(game_Omega[0].listControl)-game_Omega[0].setcount
     if i0 <= 0:
         screen.blit(card_empty ,(20, 10))
     else:
         card_b(20,10)
-    listK = game_Omega.set_card()
+    listK = game_Omega[0].set_card()
     i02 = len(listK)
     i03 = 0
     if grab == True:
         i02 = i02-1
     while i03< i02:
-        card_set_up(120+i03*20,10, listK[i03])
+        card_set_up(game_Omega, 120+i03*20,10, listK[i03])
         i03+=1
     if grab == True:
-        card_set_up(new_loc[0]-40, new_loc[1]-53+20*i02, listK[len(listK)-1])
+        card_set_up(game_Omega, new_loc[0]-40, new_loc[1]-53+20*i02, listK[len(listK)-1])
 
 def grab_control_deck(self):
     if coll_Control.grab_control_d(loc[0], loc[1]):
         print("\t GRAB DEECK ==> THEREFORE EXPAND CARDS")
-        game_Omega.set_control()
-        print("\t\t this is the new control count ",  game_Omega.setcount)
+        game_Omega[0].set_control()
+        print("\t\t this is the new control count ",  game_Omega[0].setcount)
     elif coll_Control.grab_control_m(loc[0], loc[1]):
         print("\t GRAB EXTRA DECK ==> THEREFORE manage CARDS")
         return True
     return False
 
-def grab_spare_deck(loc, control_mouse, advance_mouse):
+def grab_spare_deck(game_Omega, loc, control_mouse, advance_mouse):
     i0 = 0
     while i0 < 7:
         list_k= [-1]
         # global control_mouse
-        if collectionU[i0].grab_advance(loc[0], loc[1], i0 ,list_k):
+        if collectionU[i0].grab_advance(game_Omega, loc[0], loc[1], i0 ,list_k):
             control_mouse[0] = i0
             advance_mouse[0] = list_k[0]
             list_k.clear()
             
-            numb_id = game_Omega.listSpare[control_mouse[0]][advance_mouse[0]]
-            card_O = game_Omega.obtaincard(numb_id)
+            numb_id = game_Omega[0].listSpare[control_mouse[0]][advance_mouse[0]]
+            card_O = game_Omega[0].obtaincard(numb_id)
             print("\tXXXXXX", numb_id, "  ==>  ", card_O.ret_state())
             if card_O.ret_state() == "hidden":
                 control_mouse[0] = -1
@@ -612,8 +614,8 @@ def grab_spare_deck(loc, control_mouse, advance_mouse):
             print("\tXXXXXX",numb_id)
             control_mouse[0] = i0
             # global game_Omega
-            numb_id = game_Omega.listSpare[control_mouse[0]][len(game_Omega.listSpare[control_mouse[0]])-1]
-            card_O = game_Omega.obtaincard(numb_id)
+            numb_id = game_Omega[0].listSpare[control_mouse[0]][len(game_Omega[0].listSpare[control_mouse[0]])-1]
+            card_O = game_Omega[0].obtaincard(numb_id)
             print("\tXXXXXX", numb_id, "  ==>  ", card_O.ret_state())
             if card_O.ret_state() == "hidden":
                 control_mouse[0] = -1
@@ -646,15 +648,15 @@ def move_to_Spare_deck(loc, card_id, control, control_mouse , advance_mouse ,mou
                 print("COLLECTION MOVE HAPPEN ON => ", i0)
                 
                 
-                card_idX = game_Omega.obtainid_top_collection(mouse_symbol[0])
+                card_idX = game_Omega[0].obtainid_top_collection(mouse_symbol[0])
                 print("card id is ", card_idX)
-                if game_Omega.to_Insert_Unorganize(card_idX, i0, symbol_numb ):
+                if game_Omega[0].to_Insert_Unorganize(card_idX, i0, symbol_numb ):
                     print("\t\tSomething should happen XXX")
-                    collectionU[i0].set_Quatity(len(game_Omega.listSpare[i0])) # rearange the quantity of the list Spare collection separattely to avodi unorganizatoin
-                    coll_Heart.set_Quatity(len(game_Omega.listHeart))
-                    coll_Pica.set_Quatity(len(game_Omega.listSpades))
-                    coll_Diamond.set_Quatity(len(game_Omega.listDiamond))
-                    coll_Clover.set_Quatity(len(game_Omega.listClover))
+                    collectionU[i0].set_Quatity(len(game_Omega[0].listSpare[i0])) # rearange the quantity of the list Spare collection separattely to avodi unorganizatoin
+                    coll_Heart.set_Quatity(len(game_Omega[0].listHeart))
+                    coll_Pica.set_Quatity(len(game_Omega[0].listSpades))
+                    coll_Diamond.set_Quatity(len(game_Omega[0].listDiamond))
+                    coll_Clover.set_Quatity(len(game_Omega[0].listClover))
                     return True
                 return False
             
@@ -667,9 +669,9 @@ def move_to_Spare_deck(loc, card_id, control, control_mouse , advance_mouse ,mou
         while i0 < 7:
             if  collectionU[i0].place_c(loc[0], loc[1]):
                 print("CONTROL MOVE HAPPEN XXX")
-                if game_Omega.to_Insert_Contol("Spare", i0 ):
+                if game_Omega[0].to_Insert_Contol("Spare", i0 ):
                     print("\tMovement should happen here")
-                    collectionU[i0].set_Quatity(len(game_Omega.listSpare[i0]))
+                    collectionU[i0].set_Quatity(len(game_Omega[0].listSpare[i0]))
                 else:
                     print("\t Movement FAIL")
                 
@@ -678,37 +680,37 @@ def move_to_Spare_deck(loc, card_id, control, control_mouse , advance_mouse ,mou
         # /this section is toinserrt into collection list coming from control deck
         if coll_Heart.grab_special(loc[0], loc[1]):
                 print("\t HEART GREAT MOVE HAPPEN => ", card_id)
-                print("PRE List: ", game_Omega.listHeart)
-                if game_Omega.to_Insert_Contol("Heart", 8):
-                    print("\tPOST List: ", game_Omega.listHeart)
-                    coll_Heart.set_Quatity(len(game_Omega.listHeart))
+                print("PRE List: ", game_Omega[0].listHeart)
+                if game_Omega[0].to_Insert_Contol("Heart", 8):
+                    print("\tPOST List: ", game_Omega[0].listHeart)
+                    coll_Heart.set_Quatity(len(game_Omega[0].listHeart))
                 else:
                     print("HEART to_insert fail")
                 
         elif coll_Pica.grab_special(loc[0], loc[1]):
                 print("\t PICA GREAT MOVE HAPPEN => ", card_id)
-                print("PRE List: ", game_Omega.listSpades)
-                if game_Omega.to_Insert_Contol("Spades", 8):
+                print("PRE List: ", game_Omega[0].listSpades)
+                if game_Omega[0].to_Insert_Contol("Spades", 8):
                     print("\tSUPPER GREAT HAPPEN HAPPEN")
-                    print("\tPOST List: ", game_Omega.listSpades)
-                    coll_Pica.set_Quatity(len(game_Omega.listSpades))
+                    print("\tPOST List: ", game_Omega[0].listSpades)
+                    coll_Pica.set_Quatity(len(game_Omega[0].listSpades))
                 else:
                     print("PICA to_insert fail")
         elif coll_Diamond.grab_special(loc[0], loc[1]):
                 print("\tDIAMOND GREAT MOVE HAPPEN => ", card_id)
-                print("PRE List: ", game_Omega.listDiamond)
-                if game_Omega.to_Insert_Contol( "Diamond", 8):
+                print("PRE List: ", game_Omega[0].listDiamond)
+                if game_Omega[0].to_Insert_Contol( "Diamond", 8):
                     print("\tSUPPER GREAT HAPPEN HAPPEN")
-                    print("\tPOST List: ", game_Omega.listDiamond)
-                    coll_Diamond.set_Quatity(len(game_Omega.listDiamond))
+                    print("\tPOST List: ", game_Omega[0].listDiamond)
+                    coll_Diamond.set_Quatity(len(game_Omega[0].listDiamond))
                 else:
                     print("DIAMOND to_insert fail")
         elif coll_Clover.grab_special(loc[0], loc[1]):
                 print("\t CLOVER GREAT MOVE HAPPEN => ", card_id)
-                print("PRE List: ", game_Omega.listClover)
-                if game_Omega.to_Insert_Contol("Clover", 8):
-                    print("\tPOST List: ", game_Omega.listClover)
-                    coll_Clover.set_Quatity(len(game_Omega.listClover))
+                print("PRE List: ", game_Omega[0].listClover)
+                if game_Omega[0].to_Insert_Contol("Clover", 8):
+                    print("\tPOST List: ", game_Omega[0].listClover)
+                    coll_Clover.set_Quatity(len(game_Omega[0].listClover))
                 else:
                     print("CLOVER to_insert fail")
 
@@ -721,31 +723,31 @@ def move_to_Spare_deck(loc, card_id, control, control_mouse , advance_mouse ,mou
         # global control_mouse #control mouse signal the spare deck which you are holding (coming from)
         if i0!=control_mouse[0] and collectionU[i0].place_c(loc[0], loc[1]):
             print("SPARE MOVE HAPPEN XXX")
-            # if game_Omega.to_Insert_Unorganize(card_id, i0 , game_Omega.listSpare[control_mouse] ):
+            # if game_Omega[0].to_Insert_Unorganize(card_id, i0 , game_Omega[0].listSpare[control_mouse] ):
             if advance_mouse != -1:
                     print("\t Advance_mouse happen XXX")
-                    if game_Omega.to_Insert_Unorganize_long_section(control_mouse[0],i0,advance_mouse):
+                    if game_Omega[0].to_Insert_Unorganize_long_section(control_mouse[0],i0,advance_mouse):
                         print("\tADVANCE Movement should happen here")
-                        collectionU[i0].set_Quatity(len(game_Omega.listSpare[i0])) # rearange the quantity of the list Spare collection separattely to avodi unorganizatoin
-                        collectionU[control_mouse[0]].set_Quatity(len(game_Omega.listSpare[control_mouse[0]]))
+                        collectionU[i0].set_Quatity(len(game_Omega[0].listSpare[i0])) # rearange the quantity of the list Spare collection separattely to avodi unorganizatoin
+                        collectionU[control_mouse[0]].set_Quatity(len(game_Omega[0].listSpare[control_mouse[0]]))
                         
                         # special step,revel if carrd behind is hidden
                         if advance_mouse-1 >=0:
-                            card_O = game_Omega.deckA.deckZ[game_Omega.listSpare[control_mouse[0]][advance_mouse-1]]
+                            card_O = game_Omega[0].deckA.deckZ[game_Omega[0].listSpare[control_mouse[0]][advance_mouse-1]]
                             if card_O.ret_state() == "hidden":
                                 card_O.flip_card()
                         return True
                     else:
                         return False
             else:
-                if game_Omega.to_Insert_Unorganize(card_id, i0 , control_mouse[0] ):
+                if game_Omega[0].to_Insert_Unorganize(card_id, i0 , control_mouse[0] ):
                     print("\tMovement should happen here")
-                    collectionU[i0].set_Quatity(len(game_Omega.listSpare[i0])) # rearange the quantity of the list Spare collection separattely to avodi unorganizatoin
-                    collectionU[control_mouse[0]].set_Quatity(len(game_Omega.listSpare[control_mouse[0]]))
+                    collectionU[i0].set_Quatity(len(game_Omega[0].listSpare[i0])) # rearange the quantity of the list Spare collection separattely to avodi unorganizatoin
+                    collectionU[control_mouse[0]].set_Quatity(len(game_Omega[0].listSpare[control_mouse[0]]))
                     
                     # special step,revel if carrd behind is hidden
-                    if len(game_Omega.listSpare[control_mouse[0]])>0:
-                        card_O = game_Omega.deckA.deckZ[game_Omega.listSpare[control_mouse[0]][len(game_Omega.listSpare[control_mouse[0]])-1]]
+                    if len(game_Omega[0].listSpare[control_mouse[0]])>0:
+                        card_O = game_Omega[0].deckA.deckZ[game_Omega[0].listSpare[control_mouse[0]][len(game_Omega[0].listSpare[control_mouse[0]])-1]]
                         if card_O.ret_state() == "hidden":
                             card_O.flip_card()
                     
@@ -761,17 +763,17 @@ def move_to_Spare_deck(loc, card_id, control, control_mouse , advance_mouse ,mou
     # /this section is to insert into collection list coming from spare deck
     if coll_Heart.grab_special(loc[0], loc[1]):
             print("\t HEART GREAT MOVE HAPPEN vr 2=> ", card_id)
-            print("PRE List: ", game_Omega.listHeart)
-            if game_Omega.to_Insert(card_grabbed_id, "Heart", control_mouse[0]):
+            print("PRE List: ", game_Omega[0].listHeart)
+            if game_Omega[0].to_Insert(card_grabbed_id, "Heart", control_mouse[0]):
                 print("\tSUPPER GREAT HAPPEN HAPPEN == Control M ==> ", control_mouse[0])
-                print("\tPOST List: ", game_Omega.listHeart)
+                print("\tPOST List: ", game_Omega[0].listHeart)
                 set_collection_quantity() # rearange the quantity of the list Spare collection separattely to avodi unorganizatoin
-                coll_Heart.set_Quatity(len(game_Omega.listHeart))
+                coll_Heart.set_Quatity(len(game_Omega[0].listHeart))
                 
                 # special step,revel if carrd behind is hidden
-                if len(game_Omega.listSpare[control_mouse[0]])>0:
+                if len(game_Omega[0].listSpare[control_mouse[0]])>0:
                     print("\t SPECIAL STEEPTO REVEALCARD")
-                    card_O = game_Omega.deckA.deckZ[game_Omega.listSpare[control_mouse[0]][len(game_Omega.listSpare[control_mouse[0]])-1]]
+                    card_O = game_Omega[0].deckA.deckZ[game_Omega[0].listSpare[control_mouse[0]][len(game_Omega[0].listSpare[control_mouse[0]])-1]]
                     if card_O.ret_state() == "hidden":
                         card_O.flip_card()
                 else:
@@ -781,17 +783,17 @@ def move_to_Spare_deck(loc, card_id, control, control_mouse , advance_mouse ,mou
             
     elif coll_Pica.grab_special(loc[0], loc[1]):
             print("\t PICA GREAT MOVE HAPPEN  vr 2 => ", card_id)
-            print("PRE List: ", game_Omega.listSpades)
-            if game_Omega.to_Insert(card_grabbed_id, "Spades", control_mouse[0]):
+            print("PRE List: ", game_Omega[0].listSpades)
+            if game_Omega[0].to_Insert(card_grabbed_id, "Spades", control_mouse[0]):
                 print("\tSUPPER GREAT HAPPEN HAPPEN")
-                print("\tPOST List: ", game_Omega.listSpades)
+                print("\tPOST List: ", game_Omega[0].listSpades)
                 set_collection_quantity() # rearrange the quantity of the list Spare collection separattely to avodi unorganizatoin
-                coll_Pica.set_Quatity(len(game_Omega.listSpades))
+                coll_Pica.set_Quatity(len(game_Omega[0].listSpades))
                 
                 # special step,revel if carrd behind is hidden
-                if len(game_Omega.listSpare[control_mouse[0]]) > 0:
+                if len(game_Omega[0].listSpare[control_mouse[0]]) > 0:
                     print("\t SPECIAL STEEPTO REVEALCARD")
-                    card_O = game_Omega.deckA.deckZ[ game_Omega.listSpare[control_mouse[0]][len(game_Omega.listSpare[control_mouse[0]])-1] ]
+                    card_O = game_Omega[0].deckA.deckZ[ game_Omega[0].listSpare[control_mouse[0]][len(game_Omega[0].listSpare[control_mouse[0]])-1] ]
                     if card_O.ret_state() == "hidden":
                         card_O.flip_card()
                 else:
@@ -800,17 +802,17 @@ def move_to_Spare_deck(loc, card_id, control, control_mouse , advance_mouse ,mou
                 print("PICA to_insert fail")
     elif coll_Diamond.grab_special(loc[0], loc[1]):
             print("\tDIAMOND GREAT MOVE HAPPEN vr 2 => ", card_id)
-            print("PRE List: ", game_Omega.listDiamond)
-            if game_Omega.to_Insert(card_grabbed_id, "Diamond", control_mouse[0]):
+            print("PRE List: ", game_Omega[0].listDiamond)
+            if game_Omega[0].to_Insert(card_grabbed_id, "Diamond", control_mouse[0]):
                 print("\tSUPPER GREAT HAPPEN HAPPEN")
-                print("\tPOST List: ", game_Omega.listDiamond)
+                print("\tPOST List: ", game_Omega[0].listDiamond)
                 set_collection_quantity() # rearrange the quantity of the list Spare collection separattely to avodi unorganizatoin
-                coll_Diamond.set_Quatity(len(game_Omega.listDiamond))
+                coll_Diamond.set_Quatity(len(game_Omega[0].listDiamond))
                 
                 # special step,revel if carrd behind is hidden
-                if len(game_Omega.listSpare[control_mouse[0]]) > 0:
+                if len(game_Omega[0].listSpare[control_mouse[0]]) > 0:
                     print("\t SPECIAL STEEPTO REVEALCARD")
-                    card_O = game_Omega.deckA.deckZ[game_Omega.listSpare[control_mouse[0]][len(game_Omega.listSpare[control_mouse[0]])-1]]
+                    card_O = game_Omega[0].deckA.deckZ[game_Omega[0].listSpare[control_mouse[0]][len(game_Omega[0].listSpare[control_mouse[0]])-1]]
                     if card_O.ret_state() == "hidden":
                         card_O.flip_card()
                 else:
@@ -819,17 +821,17 @@ def move_to_Spare_deck(loc, card_id, control, control_mouse , advance_mouse ,mou
                 print("DIAMOND to_insert fail")
     elif coll_Clover.grab_special(loc[0], loc[1]):
             print("\t CLOVER GREAT MOVE HAPPEN vr 2 => ", card_id)
-            print("PRE List: ", game_Omega.listClover)
-            if game_Omega.to_Insert(card_grabbed_id, "Clover", control_mouse[0]):
+            print("PRE List: ", game_Omega[0].listClover)
+            if game_Omega[0].to_Insert(card_grabbed_id, "Clover", control_mouse[0]):
                 print("\tSUPPER GREAT HAPPEN HAPPEN == Control M ==> ", control_mouse[0])
-                print("\tPOST List: ", game_Omega.listClover)
+                print("\tPOST List: ", game_Omega[0].listClover)
                 set_collection_quantity() # rearrange the quantity of the list Spare collection separattely to avodi unorganizatoin
-                coll_Clover.set_Quatity(len(game_Omega.listClover))
+                coll_Clover.set_Quatity(len(game_Omega[0].listClover))
                 
                 # special step,revel if carrd behind is hidden
-                if len(game_Omega.listSpare[control_mouse[0]]) > 0:
+                if len(game_Omega[0].listSpare[control_mouse[0]]) > 0:
                     print("\t SPECIAL STEEPTO REVEALCARD")
-                    card_O = game_Omega.deckA.deckZ[game_Omega.listSpare[control_mouse[0]][len(game_Omega.listSpare[control_mouse[0]])-1]]
+                    card_O = game_Omega[0].deckA.deckZ[game_Omega[0].listSpare[control_mouse[0]][len(game_Omega[0].listSpare[control_mouse[0]])-1]]
                     if card_O.ret_state() == "hidden":
                         card_O.flip_card()
                 else:
@@ -870,7 +872,7 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 print("location is ", loc)
-                if grab_spare_deck(loc, control_mouse, advance_mouse):
+                if grab_spare_deck(game_Omega, loc, control_mouse, advance_mouse):
                     print("Grab card")
                     action_grab = True
                 elif grab_control_deck(loc):
@@ -899,7 +901,7 @@ while running:
                     card_grabbed_id = -1
                     mouse_symbol[0] = ""
                 if action_grab_control == True:
-                    move_to_Spare_deck(loc, game_Omega.set_card_last(), True, control_mouse, -1 ,mouse_symbol)
+                    move_to_Spare_deck(loc, game_Omega[0].set_card_last(), True, control_mouse, -1 ,mouse_symbol)
                     action_grab = False
                     action_grab_control = False
                     action_grab_control_symbol = False
@@ -945,6 +947,7 @@ while running:
             
             if event.key == pygame.K_a:
                 print("Key a has been pressed")
+                game_Omega[0].restart_game()
 
             if event.key == pygame.K_b:
                 print("Key b has been pressed")
@@ -969,7 +972,7 @@ while running:
                 
             if event.key == pygame.K_i:
                 print("Key i => Information")
-                game_Omega.display_Length_of_game()
+                game_Omega[0].display_Length_of_game()
                 
             if event.key == pygame.K_j:
                 print("Key j has been pressed")
@@ -1000,8 +1003,8 @@ while running:
                 
             if event.key == pygame.K_s:
                 print("Key s has been pressed")
-                game_Omega.display_Length_of_game()
-                game_Omega.display_Length_of_Spare()
+                game_Omega[0].display_Length_of_game()
+                game_Omega[0].display_Length_of_Spare()
                 
             if event.key == pygame.K_t:
                 print("Key t has been pressed")
@@ -1032,9 +1035,9 @@ while running:
     # card_b(1100,10)
     
     #display spare deck
-    display_collection(action_grab_control_symbol, mouse_symbol[0] ,loc)
-    display_spare_deck(loc, control_mouse, advance_mouse)
-    display_control_deck(loc, action_grab_control)
+    display_collection(game_Omega , action_grab_control_symbol, mouse_symbol[0] ,loc)
+    display_spare_deck(game_Omega, loc, control_mouse, advance_mouse)
+    display_control_deck(game_Omega, loc, action_grab_control)
     
     
 

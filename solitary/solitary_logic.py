@@ -126,6 +126,24 @@ class Solitary():
 			i0+=1
 		print()
 
+	def restart_game(self):
+		self.deckA.set_reveal_all_deck()
+		self.clean_all_list()
+		self.setcount = 0
+		self.deckA.share_deck(self.listControl)
+		self.set_up_game()
+
+  
+	def clean_all_list(self):
+		self.listClover.clear()
+		self.listDiamond.clear()
+		self.listSpades.clear()
+		self.listHeart.clear()
+		self.listControl.clear()
+		for i0 in self.listSpare:
+			i0.clear()
+		
+
 
 	def displayDeck(self):
 		self.deckA.displayControlDeck(self.listControl)
