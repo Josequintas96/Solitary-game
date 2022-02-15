@@ -1,0 +1,54 @@
+Deck:
+    0-12  => Clover
+    13-25 => Diamond
+    26-38 => Spades
+    39-51 => Heart
+
+game controls:
+	1. 
+
+Solitary
+
+class Solitary():
+	deckA = None
+	listControl = []
+	listClover = []
+	listDiamond = []
+	listSpades = []
+	listHeart = []
+	listSpare1 = []
+	listSpare2 = []
+	listSpare3 = []
+	listSpare0 = []
+
+	def displayDeck(self)
+
+	def displayDeck_Clover(self)
+
+	def displayDeck_Heart(self)
+
+	def displayDeck_Diamond(self)
+
+	def displayDeck_Spades(self):
+
+	def displayDeck_Spare(self,number):			
+
+	def display_Length_of_game(self):
+
+	def display_Length_of_Spare(self):
+
+	def move_to(self, list_to, list_where, to_add):
+	
+	def to_Insert(self, to_add, place_to_add):			
+
+	def compareList(self, type_list, to_add):
+
+	def if_Insert(self, list_W, to_add):
+
+	def to_Insert_Unorganize(self, to_add, spareL_to_add, where_from_L):
+
+	def if_Insert_UnOrganize(self, list_W, to_add):
+
+	def obtaincard(self, id):
+
+
