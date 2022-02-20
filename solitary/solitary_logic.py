@@ -1,26 +1,57 @@
 from  deck_logic import *
+from record import *
 
 class Solitary():
 	deckA = None
-	setcount = 0 #variable to manage the three cards present in front
+	setcount = [0] #variable to manage the three cards present in front
 	list_set = []
 	listControl = [] #deck at hand
 	listClover = [] #accumulation of clover cards
 	listDiamond = [] #accumulation of Diamond cards
 	listSpades = [] #accumulation of Spades cards
 	listHeart = [] #accumulation of Heart cards
- 
 	listSpare = []
+
+	recordA = None
  
 	
 	def __init__(self):
 		self.deckA = Deck()
+		self.recordA = Record()
 		self.deckA.share_deck(self.listControl)
 		i0 = 0
 		while i0<7:
 			extra_list = []
 			self.listSpare.append(extra_list)
 			i0+=1
+
+	def print_records_length(self):
+		self.recordA.print_record()
+  
+	def print_set_up_game(self):
+		# self.listControl = [0,1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,17,18,19,20,21,22,23,24]
+		print("\tControl: ", self.listControl )
+		print("\tHeart: ", self.listHeart )
+		print("\tDiamond: ", self.listDiamond)
+		print("\tSpade: ", self.listSpades )
+		print("\tClover: ", self.listClover )
+		print("\tSpare 0: ", self.listSpare[0])
+		print("\tSpare 1: ", self.listSpare[1])
+		print("\tSpare 2: ", self.listSpare[2])
+		print("\tSpare 3: ", self.listSpare[3])
+		print("\tSpare 4: ", self.listSpare[4])
+		print("\tSpare 5: " ,self.listSpare[6])
+		print("\tSpare 6: " ,self.listSpare[6])
+    
+	def record_set(self):
+		#save actual statee of the lists of game
+		print("\tSET UP RECORD")
+		self.recordA.set_record(self.deckA, self.listControl, self.listClover, self.listHeart, self.listSpades, self.listDiamond, self.listSpare, self.setcount)
+
+	def undo_record(self):
+		#restttortto previous stage of deck
+		self.recordA.restort_record(self.deckA, self.listControl, self.listClover, self.listHeart, self.listSpades, self.listDiamond, self.listSpare, self.setcount)
+
 
 	def manual_set_up_game(self):
 		# self.listControl = [0,1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,17,18,19,20,21,22,23,24]
@@ -36,7 +67,8 @@ class Solitary():
 		self.listSpare[5] = [32,31,30,29,28,27]
 		self.listSpare[6] = [45,44,43,42,41,40,39]
 		self.manual_set_up_spare_deck()
-		
+		self.record_set()
+
   
 	def manual_set_up_game(self):
 		# self.listControl = [0,1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,17,18,19,20,21,22,23,24]
@@ -52,6 +84,7 @@ class Solitary():
 		self.listSpare[5] = [32,31,30,29,28,27]
 		self.listSpare[6] = [45,44,43,42,41,40,39]
 		self.manual_set_up_spare_deck()
+		self.record_set()
   
 	def manual_set_up_game2(self):
 		# self.listControl = [0,1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,17,18,19,20,21,22,23,24]
@@ -73,6 +106,7 @@ class Solitary():
 		self.listHeart = []
 		self.listSpades = []
 		self.manual_set_up_spare_deck()
+		self.record_set()
   
 	def manual_set_up_game3(self):
 		# self.listControl = [0,1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,17,18,19,20,21,22,23,24]
@@ -89,6 +123,7 @@ class Solitary():
 		self.listHeart = []
 		self.listSpades = []
 		self.manual_set_up_spare_deck()
+		self.record_set()
   
 	def manual_set_up_spare_deck(self):
 		i0 =0
@@ -100,16 +135,17 @@ class Solitary():
 				self.deckA.deckZ[i_add].flip_back()
 				i2+=1
 			if i2-1 >=0 and i2-1< i3:
-				print("\t\tThis is i2: ",i2-1, " and i3 ", i3)
+				#print("\t\tThis is i2: ",i2-1, " and i3 ", i3)
 				i_add = self.listSpare[i0][i2-1]
 				self.deckA.deckZ[i_add].flip_card()
 			i0+=1
-		print()
+		#print()
 
 
 	def set_up_game(self):
 		self.shuffle_Control()
 		self.set_up_spare_deck()
+		self.record_set()
   
 	def set_up_spare_deck(self):
 		i0 =0
@@ -124,13 +160,16 @@ class Solitary():
 			self.deckA.deckZ[i_add].flip_card()
 			self.shuffle_Control()
 			i0+=1
-		print()
+		#print()
 
 	def restart_game(self):
 		self.deckA.set_reveal_all_deck()
 		self.clean_all_list()
-		self.setcount = 0
+		self.setcount[0] = 0
 		self.deckA.share_deck(self.listControl)
+  
+		del self.recordA
+		self.recordA = Record()
 		self.set_up_game()
 
   
@@ -189,10 +228,10 @@ class Solitary():
 		#move card from list_to to the list_where
 		#final step on moving two cards
 		kk = self.obtaincard(to_add)
-		print("=============Move To")
-		print("Number is: ", kk.ret_number())
-		print("Type is: ", kk.ret_type())
-		print("Color is: ", kk.ret_color())
+		#print("=============Move To")
+		#print("Number is: ", kk.ret_number())
+		#print("Type is: ", kk.ret_type())
+		#print("Color is: ", kk.ret_color())
 		if to_add in list_to:
 			list_to.remove(to_add)
 			list_where.insert(len(list_where),to_add)
@@ -204,27 +243,29 @@ class Solitary():
 		# spare_num_from => where we are moving the elements from
 		# spare_num_to => where we are inserting
 		# started_from_spare => where the seectionof card moving from the spare deck
-		print("To insert a list on unorganize spare")
+		#print("To insert a list on unorganize spare")
 		if self.check_list_Unorganize(spare_num_from, started_from_spare):
-			print("List coming from is organize")
+			#print("List coming from is organize")
 			i0 = len(self.listSpare[spare_num_from])
 			lenX = i0 -started_from_spare
 			if self.to_Insert_Unorganize(self.listSpare[spare_num_from][started_from_spare], spare_num_to, spare_num_from):
-				print("\t move item from list happen")
+				#print("\t move item from list happen")
 				i0=1
 				while i0 < lenX:
 					if self.to_Insert_Unorganize(self.listSpare[spare_num_from][started_from_spare], spare_num_to, spare_num_from):
-						print("No problem happening on operation")
+						#print("No problem happening on operation")
+						return True
 					else:
-						print("GRAVE EROR HAPPENING")
+						#print("GRAVE EROR HAPPENING")
+						return False
 					i0+=1
     			
 				return True
 			else:
-				print("Value can not be inserted")
+				#print("Value can not be inserted")
 				return False
 		else:
-			print("ERROR, the list coming froom is not organize")
+			#print("ERROR, the list coming froom is not organize")
 			return False
 
 
@@ -232,16 +273,16 @@ class Solitary():
 		# check if part of deeteermine list of spare deck follow unorgnize patron
 		# spare_num is the number of the spare list using
 		# run_W is the number from where the list will run from to zero
-		print("check list")
+		#print("check list")
 		lenX = len(self.listSpare[spare_num])
 		if spare_num > 7:
 			return False
 			# it is not a number of spare  listt
 		if run_W == lenX-1:
-			print("\t No need of unorganize check")
+			#print("\t No need of unorganize check")
 			return True
 		elif run_W >= lenX:
-			print("WRONG NUMBER OPTIONAL")
+			#print("WRONG NUMBER OPTIONAL")
 			return False
 		if run_W < lenX-1:
 			i2 = run_W
@@ -253,7 +294,7 @@ class Solitary():
 				card_c = self.deckA.ret_card(self.listSpare[spare_num][i2])
 				color1 = card_c.ret_color()
 				number1 = card_c.ret_number()
-				print("\t TO COMPARE IS: " , color0, " + ", number0 ,  " => ", color1, " + ", number1)
+				#print("\t TO COMPARE IS: " , color0, " + ", number0 ,  " => ", color1, " + ", number1)
 				if color0 == color1 and number0 != number1+1:
 					return False
 				color0 = color1
@@ -269,12 +310,12 @@ class Solitary():
 		# to_add: id of card wishing to add 
 		# where_come_from: it is a number that represent the list to select 0-7 mean a sparree list; 8 mean listcontrol
 		if place_to_add == "Spare":
-			if self.to_Insert_Unorganize(self.listControl[self.setcount-1], where_come_from, 8): #the 8 at the endd it is refeering to listControl where the value is coming from
-				self.setcount =  self.setcount-1
+			if self.to_Insert_Unorganize(self.listControl[self.setcount[0]-1], where_come_from, 8): #the 8 at the endd it is refeering to listControl where the value is coming from
+				self.setcount[0] =  self.setcount[0]-1
 				return True
 		else:
-			if self.to_Insert(self.listControl[self.setcount-1], place_to_add, where_come_from):
-				self.setcount = self.setcount-1
+			if self.to_Insert(self.listControl[self.setcount[0]-1], place_to_add, where_come_from):
+				self.setcount[0] = self.setcount[0]-1
 				return True
 		return False
 	
@@ -283,35 +324,39 @@ class Solitary():
 		# place_to_add meean the symbol of card to allocate
 		# to_add: id of card wishing to add 
 		# where_come_from: it is a number that represent the list to select 0-7 mean a sparree list; 8 mean listcontrol
-		print("To Insert: ")
+		#print("To Insert: ")
 		if place_to_add == "Heart":
-			print("On Deck")
+			#print("On Deck")
 			if self.compareList("Heart", to_add):
-				print("\t\t\tInsert element on List")
+				#print("\t\t\tInsert element on List")
 				return self.where_to_move( self.listHeart, where_come_from , to_add)
 			else:
-					print("\t\t\tCard fail on Insert")			
+				#print("\t\t\tCard fail on Insert")
+				return False		
 		elif place_to_add == "Clover":
-			print("On Deck")
+			#print("On Deck")
 			if self.compareList("Clover", to_add):
-				print("\t\t\tInsert element on List")
+				#print("\t\t\tInsert element on List")
 				return self.where_to_move( self.listClover, where_come_from ,to_add)
 			else:
-				print("\t\t\tCard fail on Insert")
+				#print("\t\t\tCard fail on Insert")
+				return False
 		elif place_to_add == "Diamond":
 			print("On Deck")
 			if self.compareList("Diamond", to_add):
-				print("\t\t\tInsert element on List")
+				#print("\t\t\tInsert element on List")
 				return self.where_to_move( self.listDiamond, where_come_from, to_add)
 			else:
-				print("\t\t\tCard fail on Insert")
+				#print("\t\t\tCard fail on Insert")
+				return False
 		elif place_to_add == "Spades":
 			print("On Deck")
 			if self.compareList("Spades", to_add):
-				print("\t\t\tInsert element on List")
+				#print("\t\t\tInsert element on List")
 				return self.where_to_move( self.listSpades, where_come_from ,to_add)
 			else:
-				print("\t\t\tCard fail on Insert")
+				#print("\t\t\tCard fail on Insert")
+				return False
 		return False
 
 	def where_to_move(self, where_to_add, where_come_from, to_add):
@@ -338,16 +383,16 @@ class Solitary():
 		card_type = self.deckA.ret_card_type(to_add)
 		# print("\t\t\t This is a sudden change: ", card_type)
 		if type_list == "Heart" and card_type == "Heart":
-			print("For List of Heart")
+			#print("For List of Heart")
 			return self.if_Insert(self.listHeart, to_add)
 		elif type_list == "Clover" and card_type == "Clover":
-			print("For List of Clover")
+			#print("For List of Clover")
 			return self.if_Insert(self.listClover, to_add)
 		elif type_list == "Diamond" and card_type == "Diamond":
-			print("For List of Diamond") 
+			#print("For List of Diamond") 
 			return self.if_Insert(self.listDiamond, to_add)
 		elif type_list == "Spades" and card_type == "Spades":
-			print("For List of Spades")
+			#print("For List of Spades")
 			return self.if_Insert(self.listSpades, to_add)
 		return False
 
@@ -355,20 +400,21 @@ class Solitary():
 		#Organize list from smaller to bigger numbers with the same symbol
 		#list_W is thee list where we are adding card
 		if len(list_W) == 0:
-			print("\tList  is Empty")
+			#print("\tList  is Empty")
 			kk = self.deckA.ret_card(to_add)
 			if kk.ret_value() == "ACE":
-				print("\t\tThis is an ACE")
+				#print("\t\tThis is an ACE")
 				return True
 		elif len(list_W) == 13:
-			print("\tList is Full")
+			#print("\tList is Full")
+			return False
 		else:
-			print("\tList is Incomplete")
+			#print("\tList is Incomplete")
 			kk = self.deckA.ret_card(to_add)
 			# kk2 = self.deckA.ret_card(len(list_W)-1)
 			kk2 = self.deckA.ret_card(list_W[len(list_W)-1])
 			if kk2.ret_number() == kk.ret_number()-1:
-				print("\t\tSequence Work ", kk2.ret_number(), " and ", kk.ret_number() )
+				#print("\t\tSequence Work ", kk2.ret_number(), " and ", kk.ret_number() )
 				return True
 		return False
 		#print("Type: ", kk)
@@ -377,15 +423,15 @@ class Solitary():
 		# to_add is the card id
 		#spareL_to_add =>number of the list Spare inserting into
 		#where_from_L =>  number too refer to the list where the element is coming from
-		print("To Insert: ")
+		#print("To Insert: ")
 		if spareL_to_add < 7:
-			print("On Deck")
+			#print("On Deck")
 			if self.if_Insert_UnOrganize(self.listSpare[spareL_to_add], to_add):
-				print("\t\t\tInsert element on List")
+				#print("\t\t\tInsert element on List")
 				# return self.move_to( where_from_L, self.listSpare[spareL_to_add], to_add)
 				return self.where_to_move(self.listSpare[spareL_to_add], where_from_L, to_add)
 			else:
-					print("\t\t\tCard fail on Insert")
+					#print("\t\t\tCard fail on Insert")
 					return False
 		# else:			
 		# 	print("\t\t\t This number is worng")
@@ -396,19 +442,20 @@ class Solitary():
 		# self.displayDeck_Spare(1)
 		# print("<><><><><><><><><<>><><><><><><><><><<><><><><>")
 		# print("\t", list_W)
-		print("\t id", to_add)
+		#print("\t id", to_add)
 		if len(list_W) == 0:
-			print("\tList  is Empty")
+			#print("\tList  is Empty")
 			kk = self.deckA.ret_card(to_add)
 			if kk.ret_value() == "KING":
-				print("\t\tThis is an KING")
+				#print("\t\tThis is an KING")
 				return True
 		elif len(list_W) == 13:
-			print("\tList is Full")
+			#print("\tList is Full")
+			return False
 		else:
-			print("\tList is Incomplete")
+			#print("\tList is Incomplete")
 			kk = self.deckA.ret_card(to_add)
-			print("\kk = ", kk)
+			#print("\kk = ", kk)
 			kk2 = self.deckA.ret_card(list_W[len(list_W)-1])
 
 			# print("\t======== ID= ",to_add)
@@ -422,9 +469,9 @@ class Solitary():
 
 			# if kk2.ret_number() == kk.ret_number()-1:
 			if kk2.ret_number() == kk.ret_number()+1:
-				print("\t\tSequence Work ", kk2.ret_number(), " and ", kk.ret_number() )
+				#print("\t\tSequence Work ", kk2.ret_number(), " and ", kk.ret_number() )
 				if kk2.ret_color() != kk.ret_color():
-					print("\t\t\tColor Sequence Work ", kk2.ret_color(), " and ", kk.ret_color() )
+					#print("\t\t\tColor Sequence Work ", kk2.ret_color(), " and ", kk.ret_color() )
 					return True
 		return False
 		#print("Type: ", kk)
@@ -453,40 +500,40 @@ class Solitary():
 	def set_control(self):
 	#list control+. return the top three card on the list Control
 		# self.setcount = self.setcount+3
-		print("Print set count:  ", self.setcount, end="")
-		if len(self.listControl) >= self.setcount +3:
-			self.setcount = self.setcount+3
-			print(" => ", self.setcount)
-			print("\tTHIS IS CONTROL")
-		elif len(self.listControl) >= self.setcount+2:
-			self.setcount = self.setcount+2
-			print(" => ", self.setcount)
-			print("\tTHIS IS CONTROL")
-		elif len(self.listControl) >= self.setcount+1:
-			self.setcount = self.setcount+1
-			print(" => ", self.setcount)
-			print("\tTHIS IS CONTROL")
+		#print("Print set count:  ", self.setcount[0], end="")
+		if len(self.listControl) >= self.setcount[0] +3:
+			self.setcount[0] = self.setcount[0]+3
+			#print(" => ", self.setcount[0])
+			#print("\tTHIS IS CONTROL")
+		elif len(self.listControl) >= self.setcount[0]+2:
+			self.setcount[0] = self.setcount[0]+2
+			#print(" => ", self.setcount[0])
+			#print("\tTHIS IS CONTROL")
+		elif len(self.listControl) >= self.setcount[0]+1:
+			self.setcount[0] = self.setcount[0]+1
+			#print(" => ", self.setcount[0])
+			#print("\tTHIS IS CONTROL")
 		else:
-			self.setcount = 0
-			print(" => ", self.setcount)
-			print("\tAbove limit => ",self.setcount)
+			self.setcount[0] = 0
+			#print(" => ", self.setcount[0])
+			#print("\tAbove limit => ",self.setcount[0])
   		
 			
 		# return self.listControl
 	def set_card(self):
-		#print thee number of cards of list control that should be displayed considering the setcount variable
-		ix = self.setcount
+		#print thee number of cards of list control that should be displayed considering the setcount[0] variable
+		ix = self.setcount[0]
 		if ix < 3:
-			listK = self.listControl[:self.setcount]
+			listK = self.listControl[:self.setcount[0]]
 			# print("\tPrint CardX: ", listK)
 			return listK
-		listK = self.listControl[self.setcount-3:self.setcount]
+		listK = self.listControl[self.setcount[0]-3:self.setcount[0]]
 		# print("\tPrint Card: ", listK)
 		return listK
 
 	def set_card_last(self):
 		#return the last id card that shold be presented on the list
-		cardK = self.listControl[self.setcount-1]
+		cardK = self.listControl[self.setcount[0]-1]
 		# print("\tPrint Card: ", listK)
 		return cardK
 
