@@ -56,6 +56,17 @@ class Record():
 		self.record_h +=1
 
 
+	def reset_record(self):
+		self.record_h = 0
+		self.record_setcount.clear()
+		self.record_listControl.clear()
+		self.record_listClover.clear()
+		self.record_listDiamond.clear()
+		self.record_listSpades.clear()
+		self.record_listHeart.clear()
+		self.record_listSpare.clear()
+		self.record_listflipSpare.clear()
+
 	def set_record_Control(self, list_control):
 		#print("save record control")
 		record_l = []

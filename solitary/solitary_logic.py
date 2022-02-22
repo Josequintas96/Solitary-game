@@ -70,7 +70,7 @@ class Solitary():
 		self.record_set()
 
   
-	def manual_set_up_game(self):
+	def manual_set_up_game4(self):
 		# self.listControl = [0,1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,17,18,19,20,21,22,23,24]
 		self.listControl = [51,50,49,48,47,46,
 					  38,37,36,35,34,33,
@@ -107,6 +107,23 @@ class Solitary():
 		self.listSpades = []
 		self.manual_set_up_spare_deck()
 		self.record_set()
+
+	def manual_set_up_game5(self):
+		self.listControl = []
+		self.listSpare[0] = [12]
+		self.listSpare[1] = [24]
+		self.listSpare[2] = [10]
+		self.listSpare[3] = []
+		self.listSpare[4] = []
+		self.listSpare[5] = [51]
+		self.listSpare[6] = [38,50,36,48]
+		self.listClover = []
+		self.listDiamond = []
+		self.listHeart = []
+		self.listSpades = []
+		self.manual_set_up_spare_deck()
+		self.record_set()
+
   
 	def manual_set_up_game3(self):
 		# self.listControl = [0,1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,17,18,19,20,21,22,23,24]
@@ -168,8 +185,9 @@ class Solitary():
 		self.setcount[0] = 0
 		self.deckA.share_deck(self.listControl)
   
-		del self.recordA
-		self.recordA = Record()
+		# del self.recordA
+		# self.recordA = Record()
+		self.recordA.reset_record()
 		self.set_up_game()
 
   
@@ -248,13 +266,16 @@ class Solitary():
 			#print("List coming from is organize")
 			i0 = len(self.listSpare[spare_num_from])
 			lenX = i0 -started_from_spare
+			print("NUMBER OF CARDS TO MOVE: ", lenX)
 			if self.to_Insert_Unorganize(self.listSpare[spare_num_from][started_from_spare], spare_num_to, spare_num_from):
 				#print("\t move item from list happen")
+				print("\tThis happen")
 				i0=1
 				while i0 < lenX:
 					if self.to_Insert_Unorganize(self.listSpare[spare_num_from][started_from_spare], spare_num_to, spare_num_from):
-						#print("No problem happening on operation")
-						return True
+						print("\tThis happen")
+						# print("\tNo problem happening on operation")
+						# return True
 					else:
 						#print("GRAVE EROR HAPPENING")
 						return False
@@ -342,7 +363,7 @@ class Solitary():
 				#print("\t\t\tCard fail on Insert")
 				return False
 		elif place_to_add == "Diamond":
-			print("On Deck")
+			# print("On Deck")
 			if self.compareList("Diamond", to_add):
 				#print("\t\t\tInsert element on List")
 				return self.where_to_move( self.listDiamond, where_come_from, to_add)
@@ -350,7 +371,7 @@ class Solitary():
 				#print("\t\t\tCard fail on Insert")
 				return False
 		elif place_to_add == "Spades":
-			print("On Deck")
+			# print("On Deck")
 			if self.compareList("Spades", to_add):
 				#print("\t\t\tInsert element on List")
 				return self.where_to_move( self.listSpades, where_come_from ,to_add)

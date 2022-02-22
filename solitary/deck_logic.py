@@ -133,20 +133,3 @@ class Deck:
 			i0+=1
 
 
-#play = Deck()
-#play.ret_id()		
-#play.displayStandDeck()
-#play.displayOrder()
-#play.shuffleDeck()
-#play.displayOrder()
-#play.displayDeck()
-
-#choice = Card("Clover", "ACE")
-#choice.description()
-
-
-#dict = {"h": choice}
-#print()
-#dict['h'].description()
-
-

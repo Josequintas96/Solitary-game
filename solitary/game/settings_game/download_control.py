@@ -7,6 +7,10 @@ image_control = "image/Card_resize/"
 card_back = pygame.image.load(image_special_R + "card_back_resize.png")
 
 card_empty = pygame.image.load(image_special_R + "card_emptyR.png")
+congratulation = pygame.image.load(image_special_R + "congratulation_512.png")
+undo_b = pygame.image.load(image_special_R + "undo-button_64.png")
+new_game = pygame.image.load(image_special_R + "new_game_64.png")
+board_new_g = pygame.image.load(image_special_R + "board_control.png")
 
 #cards
 image_clover = image_control + "Clover/"
