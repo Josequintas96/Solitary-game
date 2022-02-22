@@ -9,7 +9,9 @@ card_back = pygame.image.load(image_special_R + "card_back_resize.png")
 card_empty = pygame.image.load(image_special_R + "card_emptyR.png")
 congratulation = pygame.image.load(image_special_R + "congratulation_512.png")
 undo_b = pygame.image.load(image_special_R + "undo-button_64.png")
+undo_s = pygame.image.load(image_special_R + "undo_button_s.png")
 new_game = pygame.image.load(image_special_R + "new_game_64.png")
+new_game_s = pygame.image.load(image_special_R + "new_game_s.png")
 board_new_g = pygame.image.load(image_special_R + "board_control.png")
 
 #cards
@@ -101,11 +103,24 @@ letter_s = pygame.image.load(image_letter + "s.png")
 letter_t = pygame.image.load(image_letter + "t.png")
 letter_u = pygame.image.load(image_letter + "u.png")
 
-# letter_v = pygame.image.load(image_letter + "f.png")
-# letter_w = pygame.image.load(image_letter + "g.png")
-# letter_x = pygame.image.load(image_letter + "h.png")
-# letter_y = pygame.image.load(image_letter + "i.png")
-# letter_z = pygame.image.load(image_letter + "j.png")
+# letter_v = pygame.image.load(image_letter + "v.png")
+# letter_w = pygame.image.load(image_letter + "w.png")
+# letter_x = pygame.image.load(image_letter + "x.png")
+# letter_y = pygame.image.load(image_letter + "y.png")
+# letter_z = pygame.image.load(image_letter + "z.png")
 
 
 #numbI_one = pygame.image.load("numbers/numb/one_32.png")
+
+#number
+image_number = "image/numb/"
+numb_0 = pygame.image.load(image_number + "0_32.png")
+numb_1 = pygame.image.load(image_number + "1_32.png")
+numb_2 = pygame.image.load(image_number + "2_32.png")
+numb_3 = pygame.image.load(image_number + "3_32.png")
+numb_4 = pygame.image.load(image_number + "4_32.png")
+numb_5 = pygame.image.load(image_number + "5_32.png")
+numb_6 = pygame.image.load(image_number + "6_32.png")
+numb_7 = pygame.image.load(image_number + "7_32.png")
+numb_8 = pygame.image.load(image_number + "8_32.png")
+numb_9 = pygame.image.load(image_number + "9_32.png")

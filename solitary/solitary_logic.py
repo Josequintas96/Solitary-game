@@ -201,6 +201,15 @@ class Solitary():
 			i0.clear()
 		
 
+	def all_set_up(self):
+    # autocomplete the game
+    # this is a method to mark that all control has beeing arrange 
+    #... and to mark that all cards in sparre has being reveal
+		if len(self.listControl) == 0:
+			print("Control has being completely arrange")
+			
+		return False
+
 
 	def displayDeck(self):
 		self.deckA.displayControlDeck(self.listControl)

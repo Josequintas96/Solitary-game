@@ -176,8 +176,39 @@ def card_Pica(pX, pY):
 def card_Clover(pX, pY):
     # design of the Clover card
     screen.blit(c_Clover,(pX, pY))
+def score_d(pX,pY,numb):
+    if numb ==0:
+        screen.blit(numb_0,(pX, pY))
+    elif numb ==1:
+        screen.blit(numb_1,(pX, pY))
+    elif numb==2:
+        screen.blit(numb_2,(pX, pY))
+    elif numb ==3:
+        screen.blit(numb_3,(pX, pY))
+    elif numb==4:
+        screen.blit(numb_4,(pX, pY))
+    elif numb==5:
+        screen.blit(numb_5,(pX, pY))
+    elif numb==6:
+        screen.blit(numb_6,(pX, pY))
+    elif numb==7:
+        screen.blit(numb_7,(pX, pY))
+    elif numb==8:
+        screen.blit(numb_8,(pX, pY))
+    elif numb==9:
+        screen.blit(numb_9,(pX, pY))
     
     
+def set_numb(pX,pY,score):
+    numb_l = str(score)
+    lenX = len(numb_l)
+    i0 = 0
+    li2=0
+    while lenX > i0 :
+        li = int(numb_l[li2])
+        score_d(pX-30*lenX-1,pY,li)
+        lenX-=1
+        li2+=1
 
 
 
@@ -228,14 +259,27 @@ def Pletter_u(pX, pY):
     
 def congratulationX(pX,pY):
     screen.blit(congratulation, (pX, pY))
-def undo_button(pX, pY):
-    screen.blit(undo_b, (pX, pY))
-def new_g__button(pX, pY):
-    screen.blit(new_game, (pX, pY))
+def undo_button(pX, pY, loc):
+    if loc[0] > 40 and loc[0]<104 and loc[1] > 702 and loc[1]<766:
+            screen.blit(undo_s, (pX-8, pY-8))
+    else:
+        screen.blit(undo_b, (pX, pY))
+def new_g__button(pX, pY, loc):
+    if loc[0] > 792 and loc[0]<856 and loc[1] > 702 and loc[1]<766:
+            screen.blit(new_game_s, (pX-8, pY-8))
+    else:
+        screen.blit(new_game, (pX, pY))
 def cover_empty(pX,pY):
     screen.blit(card_empty ,(pX, pY))
 def board_new(pX,pY):
     screen.blit(board_new_g ,(pX, pY))
+def score_board(pX, pY):
+    Pletter_s(pX, pY)
+    Pletter_c(pX+30, pY)
+    Pletter_o(pX+30*2, pY)
+    Pletter_r(pX+30*3, pY)
+    Pletter_e(pX+30*4, pY)
+    
 
 numb = 50 #value too separrate the spare decks
 
@@ -278,6 +322,7 @@ class collection():
             self.display_advance_dynamic(game_Omega , new_loc, stage_s, i0)
             # self.display_dynamic(game_Omega, new_loc)
         elif dynamic:
+            print("Dynamic")
             self.display_static(game_Omega, self.quantity-1,  i0)
             self.display_dynamic(game_Omega, new_loc, i0, card_grabbed_id)
             
@@ -292,15 +337,18 @@ class collection():
         cover_empty(self.location[0], self.location[1]+distance_c*i0)
         while i0 < set_quantity:
             # if state == hidden
-            print("\ti0: ", i0, " and i02: ", i02)
-            print("\t\tLength of Probl. ", len(game_Omega[0].listSpare[i02]))
-            numb_id = game_Omega[0].listSpare[i02][i0]
-            
-            card_O = game_Omega[0].obtaincard(numb_id)
-            if card_O.ret_state() == "reveal":
-                card_set_up( game_Omega ,self.location[0], self.location[1]+distance_c*i0, numb_id)
-            else:
-                card_b(self.location[0], self.location[1]+distance_c*i0)
+            # print("\ti0: ", i0, " and i02: ", i02)
+            # print("\t\tLength of Probl. ", len(game_Omega[0].listSpare[i02]))
+            #add special safe to verifhy it is working 
+            lenX2 = len(game_Omega[0].listSpare[i02])
+            if i0 < lenX2:
+                numb_id = game_Omega[0].listSpare[i02][i0]
+                
+                card_O = game_Omega[0].obtaincard(numb_id)
+                if card_O.ret_state() == "reveal":
+                    card_set_up( game_Omega ,self.location[0], self.location[1]+distance_c*i0, numb_id)
+                else:
+                    card_b(self.location[0], self.location[1]+distance_c*i0)
             i0 += 1
         
         
@@ -519,14 +567,27 @@ def display_spare_deck(game_Omega, collectionU, loc, control_mouse, advance_mous
     i0 = 0
     while i0<7:
         if i0 == control_mouse[0]:
-            if advance_mouse[0] != -1:
-                #print("SUPER ADVANCE MOUSE BUTTON")
-                collectionU[i0].display(game_Omega, True, loc, True, advance_mouse[0], i0, card_grabbed_id)
-            else:
-                collectionU[i0].display(game_Omega, True, loc, False, -1, i0, card_grabbed_id)
+            i0 = i0
+            #original version
+            # if advance_mouse[0] != -1:
+            #     #print("SUPER ADVANCE MOUSE BUTTON")
+            #     collectionU[i0].display(game_Omega, True, loc, True, advance_mouse[0], i0, card_grabbed_id)
+            # else:
+            #     collectionU[i0].display(game_Omega, True, loc, False, -1, i0, card_grabbed_id)
         else:
             collectionU[i0].display(game_Omega , False, loc, False, -1,i0, card_grabbed_id)
         i0+=1
+    #rearrengee to set up next run
+    if control_mouse[0] < 7 and control_mouse[0] >= 0:
+        i0 = control_mouse[0]
+        if advance_mouse[0] != -1:
+                #print("SUPER ADVANCE MOUSE BUTTON")
+            collectionU[i0].display(game_Omega, True, loc, True, advance_mouse[0], i0, card_grabbed_id)
+        else:
+            collectionU[i0].display(game_Omega, True, loc, False, -1, i0, card_grabbed_id)
+
+        
+        
     
 def display_collection(game_Omega, grab_happen, symbol_name, new_loc):
     coll_Pica.display_special(game_Omega,grab_happen, symbol_name ,new_loc)
@@ -608,7 +669,7 @@ def grab_spare_deck(game_Omega, collectionU, loc, control_mouse, advance_mouse):
         i0+=1
     return False
 
-def move_to_Spare_deck(collectionU, loc, card_id, control, control_mouse , advance_mouse ,mouse_symbol):
+def move_to_Spare_deck(collectionU, loc, card_id, control, control_mouse , advance_mouse ,mouse_symbol, score):
     
     if card_id == -99:
         symbol_numb = 0
@@ -638,6 +699,7 @@ def move_to_Spare_deck(collectionU, loc, card_id, control, control_mouse , advan
                     coll_Pica.set_Quatity(len(game_Omega[0].listSpades))
                     coll_Diamond.set_Quatity(len(game_Omega[0].listDiamond))
                     coll_Clover.set_Quatity(len(game_Omega[0].listClover))
+                    score[0] -= 10
                     
                     game_Omega[0].record_set()
                     return True
@@ -656,6 +718,7 @@ def move_to_Spare_deck(collectionU, loc, card_id, control, control_mouse , advan
                     #print("\tMovement should happen here")
                     collectionU[i0].set_Quatity(len(game_Omega[0].listSpare[i0]))
                     game_Omega[0].record_set()
+                    score[0] += 5
                 else:
                     print("\t Movement FAIL")
                 
@@ -669,6 +732,7 @@ def move_to_Spare_deck(collectionU, loc, card_id, control, control_mouse , advan
                     #print("\tPOST List: ", game_Omega[0].listHeart)
                     coll_Heart.set_Quatity(len(game_Omega[0].listHeart))
                     game_Omega[0].record_set()
+                    score[0] += 10
                 else:
                     print("HEART to_insert fail")
                 
@@ -680,6 +744,7 @@ def move_to_Spare_deck(collectionU, loc, card_id, control, control_mouse , advan
                     #print("\tPOST List: ", game_Omega[0].listSpades)
                     coll_Pica.set_Quatity(len(game_Omega[0].listSpades))
                     game_Omega[0].record_set()
+                    score[0] += 10
                 else:
                     print("PICA to_insert fail")
         elif coll_Diamond.grab_special(loc[0], loc[1]):
@@ -690,6 +755,7 @@ def move_to_Spare_deck(collectionU, loc, card_id, control, control_mouse , advan
                     #print("\tPOST List: ", game_Omega[0].listDiamond)
                     coll_Diamond.set_Quatity(len(game_Omega[0].listDiamond))
                     game_Omega[0].record_set()
+                    score[0] += 10
                 else:
                     print("DIAMOND to_insert fail")
         elif coll_Clover.grab_special(loc[0], loc[1]):
@@ -699,6 +765,7 @@ def move_to_Spare_deck(collectionU, loc, card_id, control, control_mouse , advan
                     #print("\tPOST List: ", game_Omega[0].listClover)
                     coll_Clover.set_Quatity(len(game_Omega[0].listClover))
                     game_Omega[0].record_set()
+                    score[0] += 10
                 else:
                     print("CLOVER to_insert fail")
 
@@ -725,6 +792,7 @@ def move_to_Spare_deck(collectionU, loc, card_id, control, control_mouse , advan
                             card_O = game_Omega[0].deckA.deckZ[game_Omega[0].listSpare[control_mouse[0]][advance_mouse-1]]
                             if card_O.ret_state() == "hidden":
                                 card_O.flip_card()
+                                score[0] += 5
                             #     game_Omega[0].record_set()
                             # else:
                         game_Omega[0].record_set()
@@ -743,6 +811,7 @@ def move_to_Spare_deck(collectionU, loc, card_id, control, control_mouse , advan
                         card_O = game_Omega[0].deckA.deckZ[game_Omega[0].listSpare[control_mouse[0]][len(game_Omega[0].listSpare[control_mouse[0]])-1]]
                         if card_O.ret_state() == "hidden":
                             card_O.flip_card()
+                            score[0] += 5
                         #     game_Omega[0].record_set()
                         # else:
                     game_Omega[0].record_set()
@@ -765,6 +834,7 @@ def move_to_Spare_deck(collectionU, loc, card_id, control, control_mouse , advan
                 #print("\tPOST List: ", game_Omega[0].listHeart)
                 set_collection_quantity(collectionU) # rearange the quantity of the list Spare collection separattely to avodi unorganizatoin
                 coll_Heart.set_Quatity(len(game_Omega[0].listHeart))
+                score[0] += 10
                 
                 
                 # special step,revel if carrd behind is hidden
@@ -773,6 +843,7 @@ def move_to_Spare_deck(collectionU, loc, card_id, control, control_mouse , advan
                     card_O = game_Omega[0].deckA.deckZ[game_Omega[0].listSpare[control_mouse[0]][len(game_Omega[0].listSpare[control_mouse[0]])-1]]
                     if card_O.ret_state() == "hidden":
                         card_O.flip_card()
+                        score[0] += 5
                     #     game_Omega[0].record_set()
                     # else:
                     game_Omega[0].record_set()
@@ -790,6 +861,7 @@ def move_to_Spare_deck(collectionU, loc, card_id, control, control_mouse , advan
                 #print("\tPOST List: ", game_Omega[0].listSpades)
                 set_collection_quantity(collectionU) # rearrange the quantity of the list Spare collection separattely to avodi unorganizatoin
                 coll_Pica.set_Quatity(len(game_Omega[0].listSpades))
+                score[0] += 10
                 
                 # special step,revel if carrd behind is hidden
                 if len(game_Omega[0].listSpare[control_mouse[0]]) > 0:
@@ -797,6 +869,7 @@ def move_to_Spare_deck(collectionU, loc, card_id, control, control_mouse , advan
                     card_O = game_Omega[0].deckA.deckZ[ game_Omega[0].listSpare[control_mouse[0]][len(game_Omega[0].listSpare[control_mouse[0]])-1] ]
                     if card_O.ret_state() == "hidden":
                         card_O.flip_card()
+                        score[0] += 5
                     #     game_Omega[0].record_set()
                     # else:
                     game_Omega[0].record_set()
@@ -813,6 +886,7 @@ def move_to_Spare_deck(collectionU, loc, card_id, control, control_mouse , advan
                 #print("\tPOST List: ", game_Omega[0].listDiamond)
                 set_collection_quantity(collectionU) # rearrange the quantity of the list Spare collection separattely to avodi unorganizatoin
                 coll_Diamond.set_Quatity(len(game_Omega[0].listDiamond))
+                score[0] += 10
                 
                 # special step,revel if carrd behind is hidden
                 if len(game_Omega[0].listSpare[control_mouse[0]]) > 0:
@@ -820,6 +894,7 @@ def move_to_Spare_deck(collectionU, loc, card_id, control, control_mouse , advan
                     card_O = game_Omega[0].deckA.deckZ[game_Omega[0].listSpare[control_mouse[0]][len(game_Omega[0].listSpare[control_mouse[0]])-1]]
                     if card_O.ret_state() == "hidden":
                         card_O.flip_card()
+                        score[0] += 5
                     #     game_Omega[0].record_set()
                     # else:
                     game_Omega[0].record_set()
@@ -836,6 +911,7 @@ def move_to_Spare_deck(collectionU, loc, card_id, control, control_mouse , advan
                 #print("\tPOST List: ", game_Omega[0].listClover)
                 set_collection_quantity(collectionU) # rearrange the quantity of the list Spare collection separattely to avodi unorganizatoin
                 coll_Clover.set_Quatity(len(game_Omega[0].listClover))
+                score[0] += 10
                 
                 # special step,revel if carrd behind is hidden
                 if len(game_Omega[0].listSpare[control_mouse[0]]) > 0:
@@ -843,6 +919,7 @@ def move_to_Spare_deck(collectionU, loc, card_id, control, control_mouse , advan
                     card_O = game_Omega[0].deckA.deckZ[game_Omega[0].listSpare[control_mouse[0]][len(game_Omega[0].listSpare[control_mouse[0]])-1]]
                     if card_O.ret_state() == "hidden":
                         card_O.flip_card()
+                        score[0] += 5
                     #     game_Omega[0].record_set()
                     # else:
                     game_Omega[0].record_set()
@@ -984,6 +1061,7 @@ card_grabbed_id = [-1] #signal the id of the carrd using at the movemnt
 
 mouse_symbol = [""] #save the value of symbolcard collectited from symbol collection
 new_game_set = [False]
+score = [0] #This is the value of scorepoints in game
 
 while running:
     
@@ -1033,13 +1111,16 @@ while running:
                 #print("Button rise")
                 #print("\tLocation when button rise: ", loc) 
                 if action_grab[0]== True:
-                    move_to_Spare_deck(collectionU, loc, card_grabbed_id[0], False, control_mouse, advance_mouse[0] ,mouse_symbol)
-                    reset_controls(action_grab, action_grab_control, action_grab_control_symbol, control_mouse, advance_mouse, card_grabbed_id, mouse_symbol )
+                    print("Grab and insert from spare")
+                    move_to_Spare_deck(collectionU, loc, card_grabbed_id[0], False, control_mouse, advance_mouse[0] ,mouse_symbol, score)
+                    reset_controls(action_grab, action_grab_control, action_grab_control_symbol, control_mouse, advance_mouse, card_grabbed_id, mouse_symbol)
                 if action_grab_control[0] == True:
-                    move_to_Spare_deck(collectionU, loc, game_Omega[0].set_card_last(), True, control_mouse[0], -1 ,mouse_symbol)
+                    print("Grab and insert from control")
+                    move_to_Spare_deck(collectionU, loc, game_Omega[0].set_card_last(), True, control_mouse[0], -1 ,mouse_symbol, score)
                     reset_controls(action_grab, action_grab_control, action_grab_control_symbol, control_mouse, advance_mouse, card_grabbed_id, mouse_symbol )
                 if action_grab_control_symbol[0] == True:
-                    move_to_Spare_deck(collectionU, loc, -99, True, control_mouse[0] ,-1 , mouse_symbol)
+                    print("Grab and insert from collection")
+                    move_to_Spare_deck(collectionU, loc, -99, True, control_mouse[0] ,-1 , mouse_symbol, score)
                     reset_controls(action_grab, action_grab_control, action_grab_control_symbol, control_mouse, advance_mouse, card_grabbed_id, mouse_symbol )
             
 
@@ -1171,15 +1252,18 @@ while running:
             display_collection(game_Omega , action_grab_control_symbol[0], mouse_symbol[0] ,loc)
             display_control_deck(game_Omega, loc, action_grab_control[0])
         else: 
-            display_collection(game_Omega , action_grab_control_symbol[0], mouse_symbol[0] ,loc)
             display_spare_deck(game_Omega, collectionU,  loc, control_mouse, advance_mouse, card_grabbed_id)
             display_control_deck(game_Omega, loc, action_grab_control[0])
+            display_collection(game_Omega , action_grab_control_symbol[0], mouse_symbol[0] ,loc)
     
     if new_game_set[0] == True:
         board_new(250,200)
             
-    undo_button(40, 702)
-    new_g__button(792, 702)
+    undo_button(40, 702, loc)
+    new_g__button(792, 702, loc)
+    score_board(250, 725)
+    
+    set_numb(640, 725 ,score[0])
     
     
 
