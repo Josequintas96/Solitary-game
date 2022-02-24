@@ -124,6 +124,8 @@ class Deck:
 		return self.deckZ[i3].ret_number()
 	def ret_card_color(self, i3):
 		return self.deckZ[i3].ret_color()
+	def ret_card_state(self, i3):
+		return self.deckZ[i3].ret_state()
 
 	def set_reveal_all_deck(self):
 		lenX = len(self.orderX)

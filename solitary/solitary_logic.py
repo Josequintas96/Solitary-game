@@ -42,7 +42,7 @@ class Solitary():
 		print("\tSpare 4: ", self.listSpare[4])
 		print("\tSpare 5: " ,self.listSpare[6])
 		print("\tSpare 6: " ,self.listSpare[6])
-    
+	
 	def record_set(self):
 		#save actual statee of the lists of game
 		print("\tSET UP RECORD")
@@ -142,6 +142,61 @@ class Solitary():
 		self.manual_set_up_spare_deck()
 		self.record_set()
   
+	def manual_set_up_game6(self):
+		# test all set up game
+		# self.listControl = [0,1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,17,18,19,20,21,22,23,24]
+		self.listControl = [10,23,36,49,11,24,37,50,12,25,38,51]
+		self.listSpare[0] = []
+		self.listSpare[1] = []
+		self.listSpare[2] = []
+		self.listSpare[3] = []
+		self.listSpare[4] = []
+		self.listSpare[5] = []
+		self.listSpare[6] = []
+		self.listClover = [0,1,2,3,4,5,6,7,8,9]
+		self.listDiamond = [13,14,15,16,17,18,19,20,21,22]
+		self.listHeart = [39,40,41,42,43,44,45,46,47,48]
+		self.listSpades = [26,27,28,29,30,31,32,33,34,35]
+		self.manual_set_up_spare_deck()
+		self.record_set()
+
+
+	def manual_set_up_game7(self):
+		# test all set up game
+		# self.listControl = [0,1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,17,18,19,20,21,22,23,24]
+		self.listControl = [42]
+		self.listSpare[0] = [12,16]
+		self.listSpare[1] = []
+		self.listSpare[2] = [51,18,20,22]
+		self.listSpare[3] = [24,4,6,8]
+		self.listSpare[4] = []
+		self.listSpare[5] = []
+		self.listSpare[6] = [50,9,38,11,23,25,10]
+		self.listClover = []
+		self.listDiamond = []
+		self.listHeart = []
+		self.listSpades = []
+		self.manual_set_up_spare_deck()
+		self.record_set()
+  
+	def manual_set_up_game8(self):
+		# test all set up game
+		# self.listControl = [0,1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,17,18,19,20,21,22,23,24]
+		self.listControl = [42]
+		self.listSpare[0] = [12,16]
+		self.listSpare[1] = []
+		self.listSpare[2] = [51,18,20,22]
+		self.listSpare[3] = [24,4,6,8]
+		self.listSpare[4] = []
+		self.listSpare[5] = []
+		self.listSpare[6] = [50,9,38,11,23,25,10]
+		self.listClover = []
+		self.listDiamond = []
+		self.listHeart = []
+		self.listSpades = []
+		self.manual_set_up_spare_deck()
+		self.record_set()
+  
 	def manual_set_up_spare_deck(self):
 		i0 =0
 		while i0 < 7:
@@ -202,12 +257,52 @@ class Solitary():
 		
 
 	def all_set_up(self):
-    # autocomplete the game
-    # this is a method to mark that all control has beeing arrange 
-    #... and to mark that all cards in sparre has being reveal
+	# autocomplete the game
+	# this is a method to mark that all control has beeing arrange 
+	#... and to mark that all cards in sparre has being reveal
+		total_card = 0
 		if len(self.listControl) == 0:
 			print("Control has being completely arrange")
-			
+			i0= 0
+			lenX = len(self.listSpare)
+			while i0 < lenX:
+				lenX2 = len(self.listSpare[i0])
+				total_card += lenX2
+				i02 = 0
+				while i02 < lenX2:
+					card_id = self.listSpare[i0][i02]
+					card_state = self.deckA.ret_card_state(card_id)
+					if card_state == "hidden":
+						return False
+					i02+=1
+				i0+=1
+		else:
+			return False
+
+		total_card = total_card + len(self.listClover) + len(self.listSpades) +len(self.listHeart) + len(self.listDiamond)	
+		if total_card == 52:
+			return True
+		return False
+
+	def auto_complete_game(self):
+		total_card = 0
+		if len(self.listControl) == 0:
+			i0= 0
+			lenX = len(self.listSpare)
+			while i0 < lenX:
+				lenX2 =len(self.listSpare[i0])
+				if lenX2 > 0:
+					card_id = self.listSpare[i0][lenX2-1]
+					if self.to_Insert(card_id, "Heart", i0 ):
+						return True
+					if self.to_Insert(card_id, "Clover", i0 ):
+						return True
+					if self.to_Insert(card_id, "Diamond", i0 ):
+						return True
+					if self.to_Insert(card_id, "Spades", i0 ):
+						return True					
+				i0+=1
+    
 		return False
 
 
@@ -289,7 +384,7 @@ class Solitary():
 						#print("GRAVE EROR HAPPENING")
 						return False
 					i0+=1
-    			
+				
 				return True
 			else:
 				#print("Value can not be inserted")
@@ -453,11 +548,11 @@ class Solitary():
 		# to_add is the card id
 		#spareL_to_add =>number of the list Spare inserting into
 		#where_from_L =>  number too refer to the list where the element is coming from
-		#print("To Insert: ")
+		# print("To Insert: ")
 		if spareL_to_add < 7:
-			#print("On Deck")
+			# print("On Deck")
 			if self.if_Insert_UnOrganize(self.listSpare[spareL_to_add], to_add):
-				#print("\t\t\tInsert element on List")
+				# print("\t\t\tInsert element on List")
 				# return self.move_to( where_from_L, self.listSpare[spareL_to_add], to_add)
 				return self.where_to_move(self.listSpare[spareL_to_add], where_from_L, to_add)
 			else:
@@ -479,9 +574,9 @@ class Solitary():
 			if kk.ret_value() == "KING":
 				#print("\t\tThis is an KING")
 				return True
-		elif len(list_W) == 13:
+		# elif len(list_W) == 13:
 			#print("\tList is Full")
-			return False
+			# return False
 		else:
 			#print("\tList is Incomplete")
 			kk = self.deckA.ret_card(to_add)
@@ -510,7 +605,7 @@ class Solitary():
 		return self.deckA.ret_card(id)
 
 	def obtainid_top_collection(self, collection_name):
-    	#return card from the top collection of respective name
+		#return card from the top collection of respective name
 		if collection_name == "Heart":
 			if len(self.listHeart) >0:
 				return self.listHeart[len(self.listHeart)-1]

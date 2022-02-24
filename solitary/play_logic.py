@@ -9,30 +9,42 @@ game = Solitary()
 # game.to_Insert(39, "Heart")
 # game.displayDeck_Heart()
 # game.set_up_game()
-game.manual_set_up_game5()
+game.manual_set_up_game7()
 print()
 print()
 # game.to_Insert(13, "Heart", 8)
 # game.display_Length_of_game()
 game.display_Length_of_Spare()
-game.to_Insert_Unorganize(24, 0, 1)
+game.to_Insert_Unorganize(22, 6, 2)
+game.to_Insert_Unorganize(8, 6, 3)
+game.to_Insert_Unorganize(20, 6, 2)
+game.to_Insert_Unorganize(6, 6, 3)
+game.to_Insert_Unorganize(18, 6, 2)
+game.to_Insert_Unorganize(4, 6, 3)
 
 print("<><><><><><><><><><><><><><><><>")
 game.display_Length_of_Spare()
+game.displayDeck_Spare(6)
 
-game.to_Insert_Unorganize(10, 0, 2)
-
-print("<><><><><><><><><><><><><><><><>")
-game.display_Length_of_Spare()
-
-game.to_Insert_Unorganize_long_section(0,3,0)
+game.to_Insert_Unorganize(16, 6, 0)
 
 print("<><><><><><><><><><><><><><><><>")
 game.display_Length_of_Spare()
-print("<><><><><><><><><><><><><><><><>")
-game.displayDeck_Spare(3)
-print("<><><><><><><><><><><><><><><><>")
-game.displayDeck_Spare(0)
+game.displayDeck_Spare(6)
+
+# game.to_Insert_Unorganize(10, 0, 2)
+
+# print("<><><><><><><><><><><><><><><><>")
+# game.display_Length_of_Spare()
+
+# game.to_Insert_Unorganize_long_section(0,3,0)
+
+# print("<><><><><><><><><><><><><><><><>")
+# game.display_Length_of_Spare()
+# print("<><><><><><><><><><><><><><><><>")
+# game.displayDeck_Spare(3)
+# print("<><><><><><><><><><><><><><><><>")
+# game.displayDeck_Spare(0)
 # if game.check_list_Unorganize(1,0):
 #     print("correct")
 # else:

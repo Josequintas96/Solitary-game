@@ -1,6 +1,8 @@
 # import pygame
 from pygame.locals import *
 from settings_game.download_control import *
+# from settings_game.collection_object import *
+# from settings_game.display_control import *
 import sys
 
 
@@ -147,8 +149,8 @@ gameX = Solitary()
 # game_Omega = Solitary()
 game_Omega = [gameX]
 # game_Omega[0].superman
-game_Omega[0].set_up_game()
-# game_Omega[0].manual_set_up_game5()
+# game_Omega[0].set_up_game()
+game_Omega[0].manual_set_up_game7()
 
 
 
@@ -322,7 +324,7 @@ class collection():
             self.display_advance_dynamic(game_Omega , new_loc, stage_s, i0)
             # self.display_dynamic(game_Omega, new_loc)
         elif dynamic:
-            print("Dynamic")
+            # print("Dynamic")
             self.display_static(game_Omega, self.quantity-1,  i0)
             self.display_dynamic(game_Omega, new_loc, i0, card_grabbed_id)
             
@@ -669,7 +671,7 @@ def grab_spare_deck(game_Omega, collectionU, loc, control_mouse, advance_mouse):
         i0+=1
     return False
 
-def move_to_Spare_deck(collectionU, loc, card_id, control, control_mouse , advance_mouse ,mouse_symbol, score):
+def move_to_Spare_deck(collectionU,  loc, card_id, control, control_mouse , advance_mouse ,mouse_symbol, score):
     
     if card_id == -99:
         symbol_numb = 0
@@ -985,49 +987,43 @@ loc_collection = (790, 10) #any next piece is substract 90
 iX= 90 #valy substrract for each different collection of cards
 coll_Pica = collection(loc_collection[0], loc_collection[1])
 coll_Pica.set_name("Pica")
-coll_Pica.set_Quatity(0)
+coll_Pica.set_Quatity(len(game_Omega[0].listSpades))
 coll_Heart = collection(loc_collection[0]-iX, loc_collection[1])
 coll_Heart.set_name("Heart")
-coll_Heart.set_Quatity(0)
+coll_Heart.set_Quatity(len(game_Omega[0].listHeart))
 coll_Diamond = collection(loc_collection[0]-iX*2, loc_collection[1])
 coll_Diamond.set_name("Diamond")
-coll_Diamond.set_Quatity(0)
+coll_Diamond.set_Quatity(len(game_Omega[0].listDiamond))
 coll_Clover = collection(loc_collection[0]-iX*3, loc_collection[1])
 coll_Clover.set_name("Clover")
-coll_Clover.set_Quatity(0)
+coll_Clover.set_Quatity(len(game_Omega[0].listClover))
 
 # set up collection of card controlling deck
 coll_Control = collection(20, 10)
 coll_Control.set_name("Control")
-coll_Control.set_Quatity(0) 
+coll_Control.set_Quatity(0)
 
-def undo_occurence():
+def collection_set_quantity(game_Omega, collectionU):
+    #quick rearrange of size of collection and respective decks
+    collectionU[0].set_Quatity(len(game_Omega[0].listSpare[0]))
+    collectionU[1].set_Quatity(len(game_Omega[0].listSpare[1]))
+    collectionU[2].set_Quatity(len(game_Omega[0].listSpare[2]))
+    collectionU[3].set_Quatity(len(game_Omega[0].listSpare[3]))
+    collectionU[4].set_Quatity(len(game_Omega[0].listSpare[4]))
+    collectionU[5].set_Quatity(len(game_Omega[0].listSpare[5]))
+    collectionU[6].set_Quatity(len(game_Omega[0].listSpare[6]))
+    coll_Heart.set_Quatity(len(game_Omega[0].listHeart))
+    coll_Pica.set_Quatity(len(game_Omega[0].listSpades))
+    coll_Diamond.set_Quatity(len(game_Omega[0].listDiamond))
+    coll_Clover.set_Quatity(len(game_Omega[0].listClover))
+
+def undo_occurence(game_Omega, collectionU):
     game_Omega[0].undo_record()
-    collectionU[0].set_Quatity(len(game_Omega[0].listSpare[0]))
-    collectionU[1].set_Quatity(len(game_Omega[0].listSpare[1]))
-    collectionU[2].set_Quatity(len(game_Omega[0].listSpare[2]))
-    collectionU[3].set_Quatity(len(game_Omega[0].listSpare[3]))
-    collectionU[4].set_Quatity(len(game_Omega[0].listSpare[4]))
-    collectionU[5].set_Quatity(len(game_Omega[0].listSpare[5]))
-    collectionU[6].set_Quatity(len(game_Omega[0].listSpare[6]))
-    coll_Heart.set_Quatity(len(game_Omega[0].listHeart))
-    coll_Pica.set_Quatity(len(game_Omega[0].listSpades))
-    coll_Diamond.set_Quatity(len(game_Omega[0].listDiamond))
-    coll_Clover.set_Quatity(len(game_Omega[0].listClover))      
+    collection_set_quantity(game_Omega, collectionU)    
 
-def new_game_press(game_Omega):
+def new_game_press(game_Omega, collectionU):
     game_Omega[0].restart_game()
-    collectionU[0].set_Quatity(len(game_Omega[0].listSpare[0]))
-    collectionU[1].set_Quatity(len(game_Omega[0].listSpare[1]))
-    collectionU[2].set_Quatity(len(game_Omega[0].listSpare[2]))
-    collectionU[3].set_Quatity(len(game_Omega[0].listSpare[3]))
-    collectionU[4].set_Quatity(len(game_Omega[0].listSpare[4]))
-    collectionU[5].set_Quatity(len(game_Omega[0].listSpare[5]))
-    collectionU[6].set_Quatity(len(game_Omega[0].listSpare[6]))
-    coll_Heart.set_Quatity(len(game_Omega[0].listHeart))
-    coll_Pica.set_Quatity(len(game_Omega[0].listSpades))
-    coll_Diamond.set_Quatity(len(game_Omega[0].listDiamond))
-    coll_Clover.set_Quatity(len(game_Omega[0].listClover))  
+    collection_set_quantity(game_Omega, collectionU)
 
 def game_complete():
     q_heart = coll_Heart.return_quantity()
@@ -1062,6 +1058,7 @@ card_grabbed_id = [-1] #signal the id of the carrd using at the movemnt
 mouse_symbol = [""] #save the value of symbolcard collectited from symbol collection
 new_game_set = [False]
 score = [0] #This is the value of scorepoints in game
+split_time = 0 #unneeceesary addition too add extra time on auto fill movemeent 
 
 while running:
     
@@ -1092,7 +1089,7 @@ while running:
                         action_grab_control_symbol[0] = True
                     elif press_undo(loc):
                         print("UNDO BUTTTON")
-                        undo_occurence()
+                        undo_occurence(game_Omega, collectionU)
                     elif press_NEW_GAME(loc):
                         new_game_set[0] = True
                         
@@ -1100,7 +1097,7 @@ while running:
                     set_fi = start_new_game(loc) #result of start_new_game, 1 mean YES, 2 mean NOour outsidee board, and 3 is null
                     if set_fi == 1:
                         # print("NEW GAME")
-                        new_game_press(game_Omega)
+                        new_game_press(game_Omega, collectionU)
                         new_game_set[0] = False
                     elif set_fi == 2:
                         new_game_set[0] = False
@@ -1215,7 +1212,7 @@ while running:
                 
             if event.key == pygame.K_u:
                 print("Key u has been pressed")
-                undo_occurence()
+                undo_occurence(game_Omega, collectionU)
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
@@ -1237,25 +1234,43 @@ while running:
     #if bellow screen.fill, then the image will be bellow the color
     
     #display spare deck
-    if game_complete():
-    # if True:
-        congratulationX(180,100)
-        display_collection(game_Omega , action_grab_control_symbol[0], mouse_symbol[0] ,loc)
-        display_control_deck(game_Omega, loc, action_grab_control[0])
+    if game_Omega[0].all_set_up() == False:
+        if game_complete():
+        # if True:
+            congratulationX(180,100)
+            display_collection(game_Omega , action_grab_control_symbol[0], mouse_symbol[0] ,loc)
+            display_control_deck(game_Omega, loc, action_grab_control[0])
+        else:
+            if action_grab[0]== True: 
+                display_collection(game_Omega , action_grab_control_symbol[0], mouse_symbol[0] ,loc)
+                display_control_deck(game_Omega, loc, action_grab_control[0])
+                display_spare_deck(game_Omega, collectionU,  loc, control_mouse, advance_mouse, card_grabbed_id)
+            elif action_grab_control[0]== True: #grabbing a card from control_deck
+                display_spare_deck(game_Omega, collectionU,  loc, control_mouse, advance_mouse, card_grabbed_id)
+                display_collection(game_Omega , action_grab_control_symbol[0], mouse_symbol[0] ,loc)
+                display_control_deck(game_Omega, loc, action_grab_control[0])
+            else: 
+                display_spare_deck(game_Omega, collectionU,  loc, control_mouse, advance_mouse, card_grabbed_id)
+                display_control_deck(game_Omega, loc, action_grab_control[0])
+                display_collection(game_Omega , action_grab_control_symbol[0], mouse_symbol[0] ,loc)
     else:
-        if action_grab[0]== True: 
+        if game_complete():
+            congratulationX(180,100)
             display_collection(game_Omega , action_grab_control_symbol[0], mouse_symbol[0] ,loc)
             display_control_deck(game_Omega, loc, action_grab_control[0])
-            display_spare_deck(game_Omega, collectionU,  loc, control_mouse, advance_mouse, card_grabbed_id)
-        elif action_grab_control[0]== True: #grabbing a card from control_deck
+        else:
+            if split_time == 4:
+                if game_Omega[0].auto_complete_game():
+                    print("\tPiece Move")
+                    collection_set_quantity(game_Omega, collectionU)
+                    split_time = 0
+                    score[0]+=10
+            else:
+                 split_time += 1   
             display_spare_deck(game_Omega, collectionU,  loc, control_mouse, advance_mouse, card_grabbed_id)
             display_collection(game_Omega , action_grab_control_symbol[0], mouse_symbol[0] ,loc)
             display_control_deck(game_Omega, loc, action_grab_control[0])
-        else: 
-            display_spare_deck(game_Omega, collectionU,  loc, control_mouse, advance_mouse, card_grabbed_id)
-            display_control_deck(game_Omega, loc, action_grab_control[0])
-            display_collection(game_Omega , action_grab_control_symbol[0], mouse_symbol[0] ,loc)
-    
+
     if new_game_set[0] == True:
         board_new(250,200)
             
