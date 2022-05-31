@@ -626,7 +626,7 @@ def display_control(game_Omega, new_loc, grab):
 
 def grab_control_deck(self, game_Omega):
     if coll_Control.grab_control_d(loc[0], loc[1]):
-        print("\t GRAB DEECK ==> THEREFORE EXPAND CARDS")
+        # print("\t GRAB DEECK ==> THEREFORE EXPAND CARDS")
         game_Omega[0].set_control()
         game_Omega[0].record_set()
         #print("\t\t this is the new control count ",  game_Omega[0].setcount)
@@ -1103,6 +1103,7 @@ while running:
                         # print("NEW GAME")
                         new_game_press(game_Omega, collectionU)
                         new_game_set[0] = False
+                        score[0] = 0
                     elif set_fi == 2:
                         new_game_set[0] = False
                     elif set_fi == 3:

@@ -371,19 +371,21 @@ class Solitary():
 			#print("List coming from is organize")
 			i0 = len(self.listSpare[spare_num_from])
 			lenX = i0 -started_from_spare
-			print("NUMBER OF CARDS TO MOVE: ", lenX)
+			# print("NUMBER OF CARDS TO MOVE: ", lenX)
 			if self.to_Insert_Unorganize(self.listSpare[spare_num_from][started_from_spare], spare_num_to, spare_num_from):
 				#print("\t move item from list happen")
-				print("\tThis happen")
+				# print("\tThis happen")
 				i0=1
 				while i0 < lenX:
-					if self.to_Insert_Unorganize(self.listSpare[spare_num_from][started_from_spare], spare_num_to, spare_num_from):
-						print("\tThis happen")
-						# print("\tNo problem happening on operation")
-						# return True
-					else:
+					if self.to_Insert_Unorganize(self.listSpare[spare_num_from][started_from_spare], spare_num_to, spare_num_from) == False:
 						#print("GRAVE EROR HAPPENING")
 						return False
+					# else:
+						# print("\tThis happen")
+						# i0 = 0
+						# print("\tNo problem happening on operation")
+						# return True
+						
 					i0+=1
 				
 				return True
