@@ -18,7 +18,7 @@ The game keep a score points regarding the movement of player and a record story
   
   =>End Game
   
-  <img width="350" heigth="350" alt="Screen Shot 2022-05-31 at 5 58 45 PM" src="https://user-images.githubusercontent.com/44034603/171292871-1063ef1e-2255-4ab9-befd-a970358a638b.png">
+  <img width="350" heigth="350" style="float:left; padding-left:10px"  alt="Screen Shot 2022-05-31 at 5 58 45 PM" src="https://user-images.githubusercontent.com/44034603/171292871-1063ef1e-2255-4ab9-befd-a970358a638b.png">
 
 
 The game include a new_game button and a self-complete setting in case of completely correctly.
