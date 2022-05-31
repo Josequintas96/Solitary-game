@@ -1,4 +1,4 @@
-# import pygame
+import pygame
 from pygame.locals import *
 from settings_game.download_control import *
 # from settings_game.collection_object import *

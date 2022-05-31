@@ -45,7 +45,7 @@ class Solitary():
 	
 	def record_set(self):
 		#save actual statee of the lists of game
-		print("\tSET UP RECORD")
+		# print("\tSET UP RECORD")
 		self.recordA.set_record(self.deckA, self.listControl, self.listClover, self.listHeart, self.listSpades, self.listDiamond, self.listSpare, self.setcount)
 
 	def undo_record(self):
