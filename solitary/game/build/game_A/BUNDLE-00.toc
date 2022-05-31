@@ -1,0 +1,3 @@
+([('game_A',
+   '/Users/failop/Projects/Solitary-game/solitary/game/dist/game_A',
+   'EXECUTABLE')],)
