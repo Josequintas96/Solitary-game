@@ -9,7 +9,7 @@ The game keep a score points regarding the movement of player and a record story
 
   => Score
   
-  <img width="200" heigth="200" padding-left="10" alt="Screen Shot 2022-05-31 at 5 50 02 PM" src="https://user-images.githubusercontent.com/44034603/171292813-13a5bb74-4592-4329-833c-1c81e129a75a.png">
+        <img width="200" heigth="200" padding-left="10" alt="Screen Shot 2022-05-31 at 5 50 02 PM" src="https://user-images.githubusercontent.com/44034603/171292813-13a5bb74-4592-4329-833c-1c81e129a75a.png">
   
   =>New Game
   
