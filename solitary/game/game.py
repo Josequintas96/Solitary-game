@@ -149,8 +149,8 @@ gameX = Solitary()
 # game_Omega = Solitary()
 game_Omega = [gameX]
 # game_Omega[0].superman
-# game_Omega[0].set_up_game()
-game_Omega[0].manual_set_up_game7()
+game_Omega[0].set_up_game()
+# game_Omega[0].manual_set_up_game6()
 
 
 
