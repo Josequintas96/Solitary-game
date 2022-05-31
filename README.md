@@ -8,7 +8,7 @@ A simmple game of solitary made using pygame; compose of main game file "game_A"
 The game keep a score points regarding the movement of player and a record storyline of them; the player has the capacity of going backs both its movemments and score.
 
   => Score
-  <img width="200" heigth="200" padding="10 alt="Screen Shot 2022-05-31 at 5 50 02 PM" src="https://user-images.githubusercontent.com/44034603/171292813-13a5bb74-4592-4329-833c-1c81e129a75a.png">
+  <img width="200" heigth="200" padding="10" alt="Screen Shot 2022-05-31 at 5 50 02 PM" src="https://user-images.githubusercontent.com/44034603/171292813-13a5bb74-4592-4329-833c-1c81e129a75a.png">
   
   =>New Game
     <img width="350" heigth="350" alt="solitary_new_game" src="https://user-images.githubusercontent.com/44034603/171292881-0b3a9770-e5a3-4ab4-907c-58f975191385.png">
