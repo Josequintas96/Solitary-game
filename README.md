@@ -29,4 +29,4 @@ The game was turn into an executable using the library pyinstaller; it can be ru
 
 ==================================
 
-Thhis prrogramm can be also run with "python3 game_A.py" from terminal; but in order to do so, the file ddata must be isplaced from "dist" to previous folder.
+This program can be also run with "python3 game_A.py" from terminal; but in order to do so, the file ddata must be isplaced from "dist" to previous folder.
