@@ -25,3 +25,8 @@ The game include a new_game button and a self-complete setting in case of comple
 
 
 The game was turn into an executable using the library pyinstaller; it can be run by acceding the folder dist, file game_A.exe.
+
+
+==================================
+
+Thhis prrogramm can be also run with "python3 game_A.py"; but in ordeer to do so, the file ddata must be isplaced from "dist" to previous folder.
