@@ -148,7 +148,7 @@ def card_set_up(game_Omega, pX,pY, id):
         
             
             
-## SET UP GAME => seet up game object
+## SET UP GAME => set up game object here
 gameX = Solitary()
 # game_Omega = Solitary()
 game_Omega = [gameX]

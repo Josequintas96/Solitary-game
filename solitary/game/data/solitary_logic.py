@@ -263,7 +263,7 @@ class Solitary():
 	#... and to mark that all cards in sparre has being reveal
 		total_card = 0
 		if len(self.listControl) == 0:
-			print("Control has being completely arrange")
+			# print("Control has being completely arrange")
 			i0= 0
 			lenX = len(self.listSpare)
 			while i0 < lenX:
